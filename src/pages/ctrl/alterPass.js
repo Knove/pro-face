@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "dva";
-import { Icon, Card, Form, Input, Button, Row, Col } from "antd";
+import { Icon, Card, Form, Input, Button, Row, Col, message } from "antd";
 
 const FormItem = Form.Item;
 
-class CheckLogin extends React.Component {
+class AlterPass extends React.Component {
   state = {
     collapsed: false,
     buttonDisabled: false,
@@ -16,12 +16,11 @@ class CheckLogin extends React.Component {
       collapsed: !this.state.collapsed
     });
   };
-  renTime = (i) => {
+  renTime = i => {
     this.setState({
       buttonText: i
     });
-    if (i>0)
-    setTimeout(()=>this.renTime(--i),1000);
+    if (i > 0) setTimeout(() => this.renTime(--i), 1000);
     else {
       this.setState({
         buttonText: "获取验证码",
@@ -31,22 +30,27 @@ class CheckLogin extends React.Component {
   };
   sendCaptcha = () => {
     this.props.dispatch({
-      type: "login/sendCaptcha",
+      type: "login/sendCaptchaOfAlterPass",
       payload: {}
     });
     this.setState({
       buttonDisabled: true
     });
-      setTimeout(()=>this.renTime(60),1000);
+    setTimeout(() => this.renTime(60), 1000);
   };
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.dispatch({
-          type: "login/checkLogin",
-          payload: values
-        });
+        if(values.password !== values.password1) {
+          message.error("两次密码不一致！请检查");
+        } else {
+          this.props.dispatch({
+            type: "login/checkLoginOfAlterPass",
+            payload: values
+          });
+        }
+
       }
     });
   };
@@ -56,20 +60,40 @@ class CheckLogin extends React.Component {
     const windowHeight = document.documentElement.clientHeight;
     return (
       <div class="login-bg" style={{ height: windowHeight - 66 - 77 }}>
-        <Card className="login-card" title="身份验证" hoverable>
+        <Card className="login-card" title="更改密码" hoverable>
           <Form onSubmit={this.handleSubmit} className="login-form">
+            系统检测到您的密码是原始密码<br />您需要更改密码才可以登陆
             <FormItem>
-              {getFieldDecorator("userName", {
+              {getFieldDecorator("password", {
                 rules: [
-                  { required: true, message: "Please input your username!" }
-                ],
-                initialValue: sessionUserInfo.username
+                  { required: true, message: "请输入你要更改的密码!" },
+                  { max: 16, message: "密码长度不可大于16位!" },
+                  { min: 6, message: "密码长度不可小于6位!" }
+                ]
               })(
                 <Input
                   prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
-                  disabled
+                  type="password"
+                  placeholder="请输入新密码"
+                />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator("password1", {
+                rules: [
+                  { required: true, message: "请再次输入新密码!" },
+                  { max: 16, message: "密码长度不可大于16位!" },
+                  { min: 6, message: "密码长度不可小于6位!" }
+                ]
+              })(
+                <Input
+                  prefix={
+                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                  }
+                  type="password"
+                  placeholder="请再次输入密码"
                 />
               )}
             </FormItem>
@@ -82,7 +106,7 @@ class CheckLogin extends React.Component {
                     <Input
                       prefix={
                         <Icon
-                          type="lock"
+                          type="hourglass"
                           style={{ color: "rgba(0,0,0,.25)" }}
                         />
                       }
@@ -108,7 +132,7 @@ class CheckLogin extends React.Component {
                 className="login-form-button"
                 disabled={!this.state.buttonDisabled}
               >
-                验证登陆
+                更改密码
               </Button>
             </FormItem>
           </Form>
@@ -121,4 +145,4 @@ function mapStateToProps(state) {
   const login = state.login;
   return { login, loading: state.loading.models.prototype };
 }
-export default connect(mapStateToProps)(Form.create()(CheckLogin));
+export default connect(mapStateToProps)(Form.create()(AlterPass));
