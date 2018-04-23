@@ -55,7 +55,7 @@ export default {
         });
       } else {
         // 非法莫名直接访问，将直接跳到首页
-        window.location.href = "/";
+       window.location.href = "/";
       }
     },
     // 发送验证码操作!
@@ -112,14 +112,14 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === "/ctrl/alterPass") {
-          // DOTO
+          // 修改密码
           dispatch({
             type: "getSessionUserOfAlterPass",
             payload: {}
           });
         }
         if (location.pathname === "/ctrl/checkLogin") {
-          // DOTO
+          //
           dispatch({
             type: "getSessionUser",
             payload: {}

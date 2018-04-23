@@ -8,6 +8,7 @@ class AlterPass extends React.Component {
   state = {
     collapsed: false,
     buttonDisabled: false,
+    submitButtonDisabled: true,
     buttonText: "获取验证码"
   };
 
@@ -34,7 +35,8 @@ class AlterPass extends React.Component {
       payload: {}
     });
     this.setState({
-      buttonDisabled: true
+      buttonDisabled: true,
+      submitButtonDisabled: false
     });
     setTimeout(() => this.renTime(60), 1000);
   };
@@ -130,7 +132,7 @@ class AlterPass extends React.Component {
                 type="primary"
                 htmlType="submit"
                 className="login-form-button"
-                disabled={!this.state.buttonDisabled}
+                disabled={this.state.submitButtonDisabled}
               >
                 更改密码
               </Button>

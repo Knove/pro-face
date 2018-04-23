@@ -101,6 +101,16 @@ class Layouts extends React.Component {
                   {/* <Menu.Item key="/ctrl/pro/edit">编辑原型</Menu.Item> */}
                   <Menu.Item key="/ctrl/pro/add">增加原型种类</Menu.Item>
                 </SubMenu>
+                <SubMenu
+                  key="角色管理"
+                  title={
+                    <span>
+                      <Icon type="key" />角色管理
+                    </span>
+                  }
+                >
+                  <Menu.Item key="/ctrl/pro/roles">角色基础设置</Menu.Item>
+                </SubMenu>
               </Menu>
             </Sider>
             <Layout

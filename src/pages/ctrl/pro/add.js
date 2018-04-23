@@ -43,12 +43,12 @@ class Add extends React.Component {
           />
         </FormItem>
         <FormItem
-          label="权限组"
+          label="适用角色"
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 12 }}
         >
           <Select
-            placeholder="选择该原型的权限组"
+            placeholder="选择该原型的适用角色"
             onChange={this.handleSelectChange}
           >
             <Option value="male" disabled>
