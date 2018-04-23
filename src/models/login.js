@@ -111,10 +111,17 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(location => {
-        if (location.pathname === "/ctrl/checkLogin" || location.pathname === "/ctrl/alterPass") {
+        if (location.pathname === "/ctrl/alterPass") {
           // DOTO
           dispatch({
             type: "getSessionUserOfAlterPass",
+            payload: {}
+          });
+        }
+        if (location.pathname === "/ctrl/checkLogin") {
+          // DOTO
+          dispatch({
+            type: "getSessionUser",
             payload: {}
           });
         }
