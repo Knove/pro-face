@@ -1,14 +1,15 @@
 import React from "react";
 import { connect } from "dva";
-import MainList from '../../../components/ctrl/roles/MainList'
+import MainList from "../../../components/ctrl/roles/MainList";
+import RolesModal from "../../../components/ctrl/roles/RolesModal";
 
 class Roles extends React.Component {
   render() {
     const __ = this.props.roles;
-    console.log(__);
     return (
       <div>
         <MainList props={this.props} />
+        <RolesModal props={this.props} />
       </div>
     );
   }

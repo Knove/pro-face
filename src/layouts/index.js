@@ -30,7 +30,7 @@ class Layouts extends React.Component {
     router.push(item.keyPath[0]);
   };
   render() {
-    console.log(router.location.pathname);
+    // console.log(router.location.pathname);
     const layoutsType = ["/pro"];
     let layout = "";
     layoutsType.map(item => {
@@ -39,7 +39,7 @@ class Layouts extends React.Component {
       }
       return null;
     });
-    console.log(layout);
+    // console.log(layout);
     return (
       <div>
         <Header className="header">

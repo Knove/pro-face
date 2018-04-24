@@ -23,7 +23,7 @@ class Ctrl extends React.Component {
     });
   }
   render() {
-    console.log(router);
+    // console.log(router);
     return (
       <div>loading...</div>
     );

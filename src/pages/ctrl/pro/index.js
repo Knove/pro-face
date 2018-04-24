@@ -15,7 +15,7 @@ class Pro extends React.Component {
     });
   }
   render() {
-    console.log(router);
+    // console.log(router);
     return (
       <div></div>
     );

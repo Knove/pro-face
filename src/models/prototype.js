@@ -25,7 +25,7 @@ export default {
         prototypeTypeName: prototypeTypeName
       };
       const backData = yield call(addPrototypeType, sendData);
-      console.log(backData);
+      // console.log(backData);
       if (backData.data && backData.data.status === "200") {
         message.success("添加成功！");
         yield put({
