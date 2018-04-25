@@ -30,18 +30,19 @@ class MainList extends React.Component {
       }
     });
   };
-  routerToDetail = role_id => {
-    if (role_id) {
+  routerToDetail = record => {
+    if (record.role_id) {
       this.props.props.dispatch({
         type: "roles/save",
         payload: {
-          detailRoleId: role_id
+          detailRoleId: record.role_id,
+          detailRoleName: record.role_name
         }
       });
       this.props.props.dispatch({
         type: "roles/getRolesProType",
         payload: {
-          role_id
+          role_id: record.role_id
         }
       });
       router.push("/ctrl/pro/roles-detail");
@@ -54,7 +55,7 @@ class MainList extends React.Component {
         dataIndex: "role_name",
         key: "role_name",
         render: (text, record) => (
-          <a onClick={() => this.routerToDetail(record.role_id)}>{text}</a>
+          <a onClick={() => this.routerToDetail(record)}>{text}</a>
         )
       },
       {
@@ -86,7 +87,7 @@ class MainList extends React.Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a onClick={() => this.routerToDetail(record.role_id)}>详情</a>
+            <a onClick={() => this.routerToDetail(record)}>详情</a>
             <Divider type="vertical" />
             <Popconfirm
               title="你确定要删除这一角色么？"

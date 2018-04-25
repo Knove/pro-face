@@ -1,7 +1,8 @@
 import React from "react";
-import { Table, Popover, Modal, Button, Icon, Popconfirm, message } from "antd";
+import { Table, Select, Modal, Button, Icon, Popconfirm, message, Spin } from "antd";
+const Option = Select.Option;
 
-class RoleProType extends React.Component {
+class UserRole extends React.Component {
   ModalHandle = flag => {
     this.setState({
       visible: flag,
@@ -24,15 +25,32 @@ class RoleProType extends React.Component {
         selectedRows: []
       });
     } else {
-      message.warn("请选择原型组");
+      message.warn("请选择用户");
     }
   };
+  handleChange = (value) => {
+  this.props.props.dispatch({
+    type: "roles/save",
+    payload: {
+      addUserValue: value,
+      userData: [],
+    }
+  });
+};
+fetchUser = (value) => {
+   console.log('fetching user', value);
+ };
   render() {
     const columns = [
       {
-        title: "原型组名",
-        dataIndex: "pro_type_name",
-        key: "pro_type_name"
+        title: "用户名",
+        dataIndex: "username",
+        key: "username"
+      },
+      {
+        title: "姓名",
+        dataIndex: "realyName",
+        key: "realyName"
       },
       {
         title: "操作",
@@ -56,36 +74,6 @@ class RoleProType extends React.Component {
         key: "date"
       }
     ];
-    // 重复的不让选择
-    function reDataCheck(record) {
-      const roleProTypeList = __.roleProTypeList;
-      let flag = false;
-      roleProTypeList.map(item => {
-        if (item.pro_type_id === record._id) {
-          flag = true;
-        }
-        return null;
-      });
-      console.log(roleProTypeList, record);
-      return flag;
-    }
-    // rowSelection object indicates the need for row selection
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(
-          `selectedRowKeys: ${selectedRowKeys}`,
-          "selectedRows: ",
-          selectedRows
-        );
-        this.setState({
-          selectedRows
-        });
-      },
-      getCheckboxProps: record => ({
-        disabled: reDataCheck(record), // Column configuration not to be checked
-        name: record.name
-      })
-    };
     const __ = this.props.props.roles;
     return (
       <div>
@@ -95,17 +83,17 @@ class RoleProType extends React.Component {
             onClick={() => this.ModalHandle(true)}
             icon="plus"
           >
-            增加原型组
+            增加用户
           </Button>
         </div>
         <Table
           columns={columns}
-          dataSource={__.roleProTypeList}
+          dataSource={__.userRoleList}
           pagination={false}
           loading={this.props.props.loading}
         />
         <Modal
-          title="添加原型组"
+          title="增加用户"
           width="60%"
           destroyOnClose={true}
           visible={this.state.visible}
@@ -113,16 +101,22 @@ class RoleProType extends React.Component {
           onCancel={() => this.ModalHandle(false)}
           confirmLoading={this.props.props.loading}
         >
-          <Table
-            rowSelection={rowSelection}
-            columns={modalColumns}
-            dataSource={__.proTypeList}
-            pagination={false}
-            scroll={{ y: 240 }}
-          />
+          <Select
+            mode="multiple"
+            labelInValue
+            value={__.addUserValue}
+            placeholder="输入用户名或真实姓名模糊搜索"
+            notFoundContent={this.props.props.loading ? <Spin size="small" /> : null}
+            filterOption={false}
+            onSearch={this.fetchUser}
+            onChange={this.handleChange}
+            style={{ width: "100%" }}
+          >
+            {__.userData.map(d => <Option key={d.value}>{d.text}</Option>)}
+          </Select>
         </Modal>
       </div>
     );
   }
 }
-export default RoleProType;
+export default UserRole;

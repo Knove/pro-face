@@ -25,3 +25,24 @@ export function getRolesProType(params) {
     body: JSON.stringify(params),
   });
 }
+
+export function getProType(params) {
+  return request("/queryPrototypeType", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}
+
+export function addProTypeForRole(params) {
+  return request("/addProTypeForRole", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}
+
+export function getUserRole(params) {
+  return request("/getUserRole", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}
