@@ -27,6 +27,14 @@ class RoleProType extends React.Component {
       message.warn("请选择原型组");
     }
   };
+  handleDelete = role_pro_type_id => {
+    this.props.props.dispatch({
+      type: "roles/deleteRoleProType",
+      payload: {
+        id: role_pro_type_id
+      }
+    });
+  };
   render() {
     const columns = [
       {
@@ -39,7 +47,14 @@ class RoleProType extends React.Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">删除</a>
+            <Popconfirm
+              title="你确定要删除这一角色对应的原型组关系么？"
+              onConfirm={() => this.handleDelete(record.role_pro_type_id)}
+              okText="是"
+              cancelText="否"
+            >
+              <a>删除</a>
+            </Popconfirm>
           </span>
         )
       }
@@ -84,7 +99,8 @@ class RoleProType extends React.Component {
       getCheckboxProps: record => ({
         disabled: reDataCheck(record), // Column configuration not to be checked
         name: record.name
-      })
+      }),
+      hideDefaultSelections: true,
     };
     const __ = this.props.props.roles;
     return (

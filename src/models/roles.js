@@ -5,7 +5,11 @@ import {
   getRolesProType,
   getProType,
   addProTypeForRole,
-  getUserRole
+  getUserRole,
+  getUserByValue,
+  addUserRole,
+  deleteRoleProType,
+  deleteRoleUser
 } from "../services/roles";
 import router from "umi/router";
 import { message } from "antd";
@@ -23,10 +27,8 @@ export default {
     proTypeList: [], // 所有原型 组 的集合
     userRoleList: [], // 角色对应的用户 集合
     addUserValue: [], // 增加用户时候搜索框的值
-    userData: [{
-      value: "123",
-      text: "!23"
-    }], // 获取到的user 信息
+    userData: [], // 获取到的user 信息 {value: "123",text: "!23"}
+    lastFetchId: 0 // 保持搜索结果
   },
 
   reducers: {
@@ -52,12 +54,77 @@ export default {
     },
     // 获取当前角色的所有可见原型
     *getRolesProType({ payload }, { call, put, select }) {
+      const { detailRoleId } = yield select(store => store.roles);
+      if (!detailRoleId) {
+        router.push("/ctrl/pro/roles");
+        yield put({
+          type: "getRoles",
+          payload: {}
+        });
+        yield false;
+      }
+      payload.role_id = detailRoleId;
       const backData = yield call(getRolesProType, payload);
       if (backData.data && backData.data.status === "200") {
         yield put({
           type: "save",
           payload: {
             roleProTypeList: backData.data.data
+          }
+        });
+      } else {
+        message.error("发生错误，错误信息：" + backData.data.msg);
+      }
+    },
+    // 根据搜索的值 获取User
+    *getUserByValue({ payload }, { call, put, select }) {
+      const { lastFetchId } = yield select(store => store.roles);
+      yield put({
+        type: "save",
+        payload: {
+          lastFetchId: lastFetchId + 1
+        }
+      });
+      const fetchId = lastFetchId + 1;
+      yield put({
+        type: "save",
+        payload: {
+          userData: []
+        }
+      });
+      const backData = yield call(getUserByValue, payload);
+      if (backData.data && backData.data.status === "200") {
+        const { lastFetchId, userRoleList } = yield select(
+          store => store.roles
+        );
+        if (fetchId !== lastFetchId) {
+          // for fetch callback order
+          yield false;
+        }
+        // 防止 用户 重复添加的前端控制
+        const userArray = backData.data.data;
+        const uniqueArray = [];
+        userArray.map(userArrayItem => {
+          let flag = true;
+          userRoleList.map(userRoleListItem => {
+            if (userRoleListItem.username === userArrayItem.username) {
+              flag = false;
+            }
+            return null;
+          });
+          if (flag) uniqueArray.push(userArrayItem);
+          return null;
+        });
+        yield put({
+          type: "save",
+          payload: {
+            userData: uniqueArray.map(item => {
+              return {
+                userId: item.userId,
+                realyName: item.realyName,
+                username: item.username
+              };
+            })
           }
         });
       } else {
@@ -136,9 +203,27 @@ export default {
       payload.role_id = detailRoleId;
       const backData = yield call(addProTypeForRole, payload);
       if (backData.data && backData.data.status === "200") {
-        message.success("添加角色成功!");
+        message.success("添加原型组成功!");
         yield put({
           type: "getRolesProType",
+          payload: {
+            role_id: detailRoleId
+          }
+        });
+      } else {
+        message.error("发生错误，错误信息：" + backData.data.msg);
+      }
+    },
+    // 增加 角色对应的 用户
+    *addUserRole({ payload }, { call, put, select }) {
+      const { detailRoleId, addUserValue } = yield select(state => state.roles);
+      payload.role_id = detailRoleId;
+      payload.addUserList = addUserValue;
+      const backData = yield call(addUserRole, payload);
+      if (backData.data && backData.data.status === "200") {
+        message.success("添加用户成功!");
+        yield put({
+          type: "getUserRole",
           payload: {
             role_id: detailRoleId
           }
@@ -153,6 +238,30 @@ export default {
         message.success("删除角色成功!");
         yield put({
           type: "getRoles",
+          payload: {}
+        });
+      } else {
+        message.error("发生错误，错误信息：" + backData.data.msg);
+      }
+    },
+    *deleteRoleProType({ payload }, { call, put }) {
+      const backData = yield call(deleteRoleProType, payload);
+      if (backData.data && backData.data.status === "200") {
+        message.success("删除成功!");
+        yield put({
+          type: "getRolesProType",
+          payload: {}
+        });
+      } else {
+        message.error("发生错误，错误信息：" + backData.data.msg);
+      }
+    },
+    *deleteRoleUser({ payload }, { call, put }) {
+      const backData = yield call(deleteRoleUser, payload);
+      if (backData.data && backData.data.status === "200") {
+        message.success("删除成功!");
+        yield put({
+          type: "getUserRole",
           payload: {}
         });
       } else {

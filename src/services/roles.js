@@ -46,3 +46,31 @@ export function getUserRole(params) {
     body: JSON.stringify(params),
   });
 }
+
+export function getUserByValue(params) {
+  return request("/getUserByValue", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}
+
+export function addUserRole(params) {
+  return request("/addUserRole", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}
+
+export function deleteRoleProType(params) {
+  return request("/deleteProTypeRole", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}
+
+export function deleteRoleUser(params) {
+  return request("/deleteUserRole", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}

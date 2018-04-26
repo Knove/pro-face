@@ -1,9 +1,25 @@
 import React from "react";
-import { Table, Select, Modal, Button, Icon, Popconfirm, message, Spin } from "antd";
+import {
+  Table,
+  Select,
+  Modal,
+  Button,
+  Icon,
+  Popconfirm,
+  message,
+  Spin
+} from "antd";
 const Option = Select.Option;
 
 class UserRole extends React.Component {
   ModalHandle = flag => {
+    this.props.props.dispatch({
+      type: "roles/save",
+      payload: {
+        addUserValue: [],
+        userData: []
+      }
+    });
     this.setState({
       visible: flag,
       selectedRows: []
@@ -11,35 +27,49 @@ class UserRole extends React.Component {
   };
   state = {
     visible: false,
-    selectedRows: [] // 选择的行
   };
   handleOk = () => {
-    const selectedRows = this.state.selectedRows;
-    if (selectedRows.length > 0) {
+    const __ = this.props.props.roles;
+    if (__.addUserValue.length > 0) {
       this.props.props.dispatch({
-        type: "roles/addProTypeForRole",
-        payload: { selectedRows }
+        type: "roles/addUserRole",
+        payload: {}
       });
       this.setState({
         visible: false,
-        selectedRows: []
       });
     } else {
-      message.warn("请选择用户");
+      message.warn("请选择用户！");
     }
   };
-  handleChange = (value) => {
-  this.props.props.dispatch({
-    type: "roles/save",
-    payload: {
-      addUserValue: value,
-      userData: [],
+  handleChange = value => {
+    this.props.props.dispatch({
+      type: "roles/save",
+      payload: {
+        addUserValue: value,
+        userData: []
+      }
+    });
+  };
+  fetchUser = value => {
+    if (value) {
+      this.props.props.dispatch({
+        type: "roles/getUserByValue",
+        payload: {
+          value
+        }
+      });
+      console.log(value);
     }
-  });
-};
-fetchUser = (value) => {
-   console.log('fetching user', value);
- };
+  };
+  handleDelete = user_role_id => {
+    this.props.props.dispatch({
+      type: "roles/deleteRoleUser",
+      payload: {
+        id: user_role_id
+      }
+    });
+  };
   render() {
     const columns = [
       {
@@ -57,7 +87,14 @@ fetchUser = (value) => {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">删除</a>
+            <Popconfirm
+              title="你确定要删除这一角色对应的用户关系么？"
+              onConfirm={() => this.handleDelete(record.user_role_id)}
+              okText="是"
+              cancelText="否"
+            >
+              <a>删除</a>
+            </Popconfirm>
           </span>
         )
       }
@@ -106,13 +143,19 @@ fetchUser = (value) => {
             labelInValue
             value={__.addUserValue}
             placeholder="输入用户名或真实姓名模糊搜索"
-            notFoundContent={this.props.props.loading ? <Spin size="small" /> : null}
+            notFoundContent={
+              this.props.props.loading ? <Spin size="small" /> : null
+            }
             filterOption={false}
             onSearch={this.fetchUser}
             onChange={this.handleChange}
             style={{ width: "100%" }}
           >
-            {__.userData.map(d => <Option key={d.value}>{d.text}</Option>)}
+            {__.userData.map(d => (
+              <Option key={d.userId}>
+                {d.realyName} - {d.username}
+              </Option>
+            ))}
           </Select>
         </Modal>
       </div>
