@@ -23,16 +23,21 @@ export default {
       const backData = yield call(getSessionUser, payload);
       if (
         backData.data &&
-        backData.data.status === "200" &&
-        backData.data.data.checkUser === false
+        backData.data.status === "200"
       ) {
-        // 获取成功到 外域登录用户信息
         yield put({
           type: "save",
           payload: {
             sessionUserInfo: backData.data.data
           }
         });
+        if (backData.data.data.power !== "admin" && backData.data.data.power !== "ctrl") {
+          // 权限不足，强制退出
+          window.location.href = "/";
+        }
+      } else {
+          // 权限不足，强制退出
+          window.location.href = "/";
       }
     },
   },

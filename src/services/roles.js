@@ -27,7 +27,7 @@ export function getRolesProType(params) {
 }
 
 export function getProType(params) {
-  return request("/queryPrototypeType", {
+  return request("/queryPrototypeTypeAll", {
     method: "POST",
     body: JSON.stringify(params),
   });
