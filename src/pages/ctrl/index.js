@@ -9,6 +9,7 @@ class Ctrl extends React.Component {
     const routerRule = {
       checkLogin : 'ctrl/checkLogin', // 校验 验证码页面
       alterPass : 'ctrl/alterPass', // 强制更改密码页面
+      upload : 'ctrl/common/upload', // 上传原型 页面
       pro : 'ctrl/pro',              // 系统管理页
     }
     router.push(routerRule[targetRouter])
