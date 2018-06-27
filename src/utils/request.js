@@ -21,10 +21,20 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options) {
+export function request(url, options) {
   options.headers = {
     "Content-Type": "application/json"
   };
+  // 跨域传session :
+  options.credentials = "include";
+  return fetch(url, options)
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(data => ({ data }))
+    .catch(err => ({ err }));
+}
+export function requestFile(url, options) {
+  console.log(options);
   // 跨域传session :
   options.credentials = "include";
   return fetch(url, options)

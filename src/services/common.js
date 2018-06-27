@@ -1,7 +1,7 @@
-import request from "../utils/request";
+import { request, requestFile } from "../utils/request";
 
 export function getSessionUser(params) {
-  return request("/queryUser", {
+  return request("/pro/queryUser", {
     method: "POST",
     body: JSON.stringify(params),
   });
@@ -9,35 +9,43 @@ export function getSessionUser(params) {
 
 
 export function testLogin(params) {
-  return request("/checkUser", {
+  return request("/pro/checkUser", {
     method: "POST",
     body: JSON.stringify(params),
   });
 }
 
 export function sendCaptcha(params) {
-  return request("/sendCaptcha", {
+  return request("/pro/sendCaptcha", {
     method: "POST",
     body: JSON.stringify(params),
   });
 }
 export function sendCaptchaOfAlterPass(params) {
-  return request("/sendCaptchaOfAlterPass", {
+  return request("/pro/sendCaptchaOfAlterPass", {
     method: "POST",
     body: JSON.stringify(params),
   });
 }
 
 export function checkLogin(params) {
-  return request("/checkLogin", {
+  return request("/pro/checkLogin", {
     method: "POST",
     body: JSON.stringify(params),
   });
 }
 
 export function checkLoginOfAlterPass(params) {
-  return request("/checkLoginOfAlterPass", {
+  return request("/pro/checkLoginOfAlterPass", {
     method: "POST",
     body: JSON.stringify(params),
+  });
+}
+
+export function uploadFile(params) {
+  console.log(params);
+  return requestFile("/pro/uploadFile", {
+    method: "POST",
+    body: params
   });
 }

@@ -7,8 +7,13 @@ class UploadFile extends React.Component {
     const { fileList } = this.props.upload;
     console.log(fileList);
     const formData = new FormData();
-    formData.file = fileList[0];
-    formData.style = "2";
+    formData.append("fileUpload", fileList[0]);
+    formData.append("fileType", "4");
+
+    this.props.dispatch({
+      type: "upload/uploadFile",
+      payload: formData
+    });
   };
   render() {
     const __ = this.props.upload;

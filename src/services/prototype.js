@@ -5,7 +5,7 @@ export function query() {
 }
 
 export function addPrototypeType(params) {
-  return request("/addPrototypeType", {
+  return request("/pro/addPrototypeType", {
     method: "POST",
     body: JSON.stringify(params),
   });

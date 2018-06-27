@@ -13,7 +13,6 @@ class Layouts extends React.Component {
     breadCrumbLevelOne: "",
     breadCrumbLevelTwo: "辰森原型系统"
   };
-  componentDidMount() {}
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed
@@ -30,7 +29,6 @@ class Layouts extends React.Component {
     router.push(item.keyPath[0]);
   };
   render() {
-    // console.log(router.location.pathname);
     const layoutsType = ["/pro"];
     let layout = "";
     layoutsType.map(item => {
@@ -39,7 +37,10 @@ class Layouts extends React.Component {
       }
       return null;
     });
-    // console.log(layout);
+    const h =
+      (window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight) - 215;
     return (
       <div>
         <Header className="header">
@@ -51,7 +52,7 @@ class Layouts extends React.Component {
             style={{ lineHeight: "64px" }}
           >
             {/* <Menu.Item key="#">论坛</Menu.Item> */}
-            <Menu.Item>
+            <Menu.Item key="/">
               <a
                 onClick={() => {
                   window.location.href = "/";
@@ -87,7 +88,7 @@ class Layouts extends React.Component {
                   borderRight: 0
                 }}
               >
-                <Menu.Item key="/ctrl/">
+                <Menu.Item key="/ctrl/pro">
                   <Icon type="home" />首页
                 </Menu.Item>
                 <SubMenu
@@ -111,6 +112,20 @@ class Layouts extends React.Component {
                 >
                   <Menu.Item key="/ctrl/pro/roles">角色基础设置</Menu.Item>
                 </SubMenu>
+                {this.props.index.sessionUserInfo.power === "admin" && (
+                  <SubMenu
+                    key="用户管理"
+                    title={
+                      <span>
+                        <Icon type="user" />用户管理
+                      </span>
+                    }
+                  >
+                    <Menu.Item key="/ctrl/pro/admin/addUser">
+                      增加用户
+                    </Menu.Item>
+                  </SubMenu>
+                )}
               </Menu>
             </Sider>
             <Layout
@@ -135,7 +150,7 @@ class Layouts extends React.Component {
                   background: "#fff",
                   padding: 24,
                   margin: 0,
-                  minHeight: 280
+                  minHeight: h
                 }}
               >
                 {this.props.children}
@@ -143,10 +158,13 @@ class Layouts extends React.Component {
             </Layout>
           </Layout>
         )}
+
         {layout === "" && this.props.children}
-        <Footer style={{ textAlign: "center" }}>
-          ©2018 北京辰森世纪科技股份有限公司
-        </Footer>
+        {layout !== "" && (
+          <Footer style={{ textAlign: "center" }}>
+            ©2018 北京辰森世纪科技股份有限公司
+          </Footer>
+        )}
       </div>
     );
   }
@@ -154,6 +172,6 @@ class Layouts extends React.Component {
 // mapStateToProps内的参数需与model里的namespace一致
 function mapStateToProps(state) {
   const index = state.index;
-  return { index, loading: state.loading.models.prototype };
+  return { index, loading: state.loading.models.index };
 }
 export default withRouter(connect(mapStateToProps)(Layouts));

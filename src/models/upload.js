@@ -1,4 +1,4 @@
-import { getSessionUser } from "../services/common";
+import { getSessionUser, uploadFile } from "../services/common";
 import { message } from "antd";
 export default {
   namespace: "upload",
@@ -18,9 +18,9 @@ export default {
     *fetch({ payload }, { call, put }) {
       yield put({ type: "save", payload });
     },
-    // 获取当前Session用户
-    *getSessionUser({ payload }, { call, put, select }) {
-      const backData = yield call(getSessionUser, payload);
+    // 上传文件
+    *uploadFile({ payload }, { call, put, select }) {
+      const backData = yield call(uploadFile, payload);
       console.log(backData);
     },
   },
