@@ -1,12 +1,13 @@
-import { queryPrototypeType, uploadFile } from "../services/common";
+import { queryPrototypeType, uploadFile, uploadFileToType } from "../services/common";
 import { message } from "antd";
 export default {
   namespace: "upload",
 
   state: {
-    fileList: [], // 获取到的session User 信息
+    fileList: [], // 上传的文件List
     uploadType: "", // 上传类型！
-    prototypeTypeList: [] // 获取到的所有原型 类型 List
+    PrototypeTypeList: [], // 获取到的所有原型 类型 List
+    fileText: "" // 文件简介
   },
 
   reducers: {
@@ -23,6 +24,15 @@ export default {
     // 上传文件
     *uploadFile({ payload }, { call, put, select }) {
       const backData = yield call(uploadFile, payload);
+      console.log(backData);
+      message.info("上传请求发起成功！正在跳转至主页……");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
+    },
+    // 上传文档！
+    *uploadFileToType({ payload }, { call, put, select }) {
+      const backData = yield call(uploadFileToType, payload);
       console.log(backData);
       message.info("上传请求发起成功！正在跳转至主页……");
       setTimeout(() => {
@@ -52,6 +62,29 @@ export default {
           dispatch({
             type: "queryPrototypeType",
             payload: {}
+          });
+          dispatch({
+            type: "save",
+            payload: {
+              uploadType: "",
+              fileList: [],
+              fileText: "",
+            }
+          });
+        }
+        if (location.pathname === "/ctrl/pro/add-type-file") {
+          // 请求原型类型
+          dispatch({
+            type: "queryPrototypeType",
+            payload: {}
+          });
+          dispatch({
+            type: "save",
+            payload: {
+              uploadType: "",
+              fileList: [],
+              fileText: "",
+            }
           });
         }
       });

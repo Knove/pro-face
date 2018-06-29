@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Card, message, Button, Icon, Avatar } from "antd";
+import { Table, Card, Popover, Button, Icon, Spin } from "antd";
 import router from "umi/router";
 import moment from "moment";
 const { Meta } = Card;
@@ -51,7 +51,50 @@ class ListRight extends React.Component {
         key: "text"
       }
     ];
-
+    const cardListShare =
+      this.props.props.index.DocList &&
+      this.props.props.index.DocList.map(item => {
+        const index1 = item.file_name.lastIndexOf(".");
+        const index2 = item.file_name.length;
+        const postf = item.file_name.substring(index1, index2); //后缀名
+        let image = "";
+        if (postf === ".pptx" || postf === ".ppt") {
+          image = require("../../assets/file-logo/ppt-c.jpg");
+        } else if (postf === ".doc" || postf === ".docx") {
+          image = require("../../assets/file-logo/word-c.jpg");
+        } else if (postf === ".xlsx" || postf === ".xls") {
+          image = require("../../assets/file-logo/excel-c.jpg");
+        } else if (postf === ".txt") {
+          image = require("../../assets/file-logo/txt-c.jpg");
+        } else {
+          image = require("../../assets/file-logo/word-c.jpg");
+        }
+        return (
+          <Card
+            className="file-card"
+            cover={<img className="icon-img" alt="example" src={image} />}
+            actions={[
+              <a href={"/doc-file/" + item._id + "/" + item.file_name} target="_blank" rel="noopener noreferrer" >
+                <Icon type="arrow-down" />
+              </a>,
+              <Popover
+                content=<div>
+                  <p><b>文件名：</b>{item.file_name}</p>
+                  <p><b>文件简介：</b>{item.file_text}</p>
+                  <p><b>上传者：</b>{item.upload_user}</p>
+                  <p><b>上传日期：</b>{moment(item.upload_date).format("YY/MM/DD HH:mm")}</p>
+                </div>
+                title="详细信息"
+                trigger="click"
+              >
+                <Icon type="ellipsis" />
+              </Popover>
+            ]}
+          >
+            <Meta title={item.file_name} description={item.file_text} />
+          </Card>
+        );
+      });
     const data = this.props.props.index.PrototypeList;
     const loading = this.props.props.loading;
     return (
@@ -68,26 +111,9 @@ class ListRight extends React.Component {
             emptyText: "这里还未上传任何原型哦！"
           }}
         />
-        <Card className="right-card" style={{ height: h / 2 }}>
-          <Card
-            className="file-card"
-            cover={
-              <img
-                className="icon-img"
-                alt="example"
-                src={require("../../assets/file-logo/word-c.jpg")}
-              />
-            }
-            actions={[
-              <Icon
-                type="arrow-down"
-                onCLick={() => message.info("暂未开放")}
-              />,
-              <Icon type="ellipsis" onCLick={() => message.info("暂未开放")} />
-            ]}
-          >
-            <Meta title="相关文档" description="现在该原型下没有文档哦！" />
-          </Card>
+
+        <Card className="right-card" loading={loading} style={{ height: h / 2 }}>
+          {cardListShare.length ? cardListShare : <div className="null-doc-card">这里还未上传任何文档哦！</div>}
         </Card>
       </div>
     );

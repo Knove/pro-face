@@ -14,6 +14,13 @@ class MainList extends React.Component {
         }
       }
     });
+    this.props.props.dispatch({
+      type: "index/queryDoc",
+      payload: {
+        pro_id: item.key,
+      }
+    });
+
   };
   render() {
     const __ = this.props.props.index;

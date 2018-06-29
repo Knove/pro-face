@@ -1,5 +1,5 @@
 import { getSessionUser } from "../services/common";
-import { queryPrototypeType, queryPrototype } from "../services/index";
+import { queryPrototypeType, queryPrototype, queryDocByTypeId } from "../services/index";
 import { message } from "antd";
 export default {
   namespace: "index",
@@ -8,6 +8,7 @@ export default {
     sessionUserInfo: {}, // 获取到的session User 信息
     PrototypeTypeList: [], // 左侧 原型  类型 的列表
     PrototypeList: [], // 右侧 原型 的列表
+    DocList: [], // 右侧的 相关Doc 的列表
   },
 
   reducers: {
@@ -33,7 +34,9 @@ export default {
         });
         if (
           backData.data.data.power !== "admin" &&
-          backData.data.data.power !== "ctrl"
+          backData.data.data.power !== "ctrl" &&
+          !backData.data.data.checkUser &&
+          !backData.data.data.alterPass
         )
           // 权限不足，强制退出
           window.location.href = "/";
@@ -51,6 +54,9 @@ export default {
             sessionUserInfo: backData.data.data
           }
         });
+        if (!backData.data.data.checkUser && !backData.data.data.alterPass)
+          // 权限不足，强制退出
+          window.location.href = "/";
       } else
         // 权限不足，强制退出
         window.location.href = "/";
@@ -65,8 +71,7 @@ export default {
             PrototypeTypeList: backData.data.data
           }
         });
-      } else
-        message.error("获取列表失败，请刷新重试。");
+      } else message.error("获取列表失败，请刷新重试。");
     },
     // 根据原型类型id 获取原型
     *queryPrototype({ payload }, { call, put, select }) {
@@ -78,8 +83,19 @@ export default {
             PrototypeList: backData.data.data.pageData
           }
         });
-      } else
-        message.error("获取列表失败，请刷新重试。");
+      } else message.error("获取列表失败，请刷新重试。");
+    },
+    // 根据原型类型id 获取相关文档
+    *queryDoc({ payload }, { call, put, select }) {
+      const backData = yield call(queryDocByTypeId, payload);
+      if (backData.data && backData.data.status === "200") {
+        yield put({
+          type: "save",
+          payload: {
+            DocList: backData.data.data
+          }
+        });
+      } else message.error("获取列表失败，请刷新重试。");
     }
   },
 
@@ -94,7 +110,7 @@ export default {
             payload: {}
           });
         }
-        if(location.pathname === "/") {
+        if (location.pathname === "/") {
           dispatch({
             type: "getSessionUserForNormal",
             payload: {}

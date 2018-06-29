@@ -12,3 +12,9 @@ export function queryPrototype(params) {
     body: JSON.stringify(params)
   });
 }
+export function queryDocByTypeId(params) {
+  return request("/pro/queryDocByTypeId", {
+    method: "POST",
+    body: JSON.stringify(params)
+  });
+}

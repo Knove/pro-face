@@ -43,8 +43,13 @@ export function checkLoginOfAlterPass(params) {
 }
 
 export function uploadFile(params) {
-  console.log(params);
   return requestFile("/pro/uploadFile", {
+    method: "POST",
+    body: params
+  });
+}
+export function uploadFileToType(params) {
+  return requestFile("/pro/uploadFileToType", {
     method: "POST",
     body: params
   });
