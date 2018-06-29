@@ -49,3 +49,10 @@ export function uploadFile(params) {
     body: params
   });
 }
+
+export function queryPrototypeType(params) {
+  return request("/pro/queryPrototypeType", {
+    method: "POST",
+    body: params
+  });
+}

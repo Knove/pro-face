@@ -1,6 +1,8 @@
 import React from "react";
-import { Upload, Button, Icon, message } from "antd";
+import { Upload, Button, Icon, Card, Alert, Select } from "antd";
 import { connect } from "dva";
+
+const Option = Select.Option;
 
 class UploadFile extends React.Component {
   handleUpload = () => {
@@ -13,6 +15,12 @@ class UploadFile extends React.Component {
     this.props.dispatch({
       type: "upload/uploadFile",
       payload: formData
+    });
+    this.props.dispatch({
+      type: "upload/save",
+      payload: {
+        fileList: []
+      }
     });
   };
   render() {
@@ -40,23 +48,48 @@ class UploadFile extends React.Component {
       },
       fileList: __.fileList
     };
-
+    function handleChange(value) {
+      console.log(`selected ${value}`);
+    }
     return (
-      <div>
-        <Upload {...props}>
-          <Button>
-            <Icon type="upload" /> 请选择Zip包
+      <div className="main-card" style={{ marginTop: 15 }}>
+        <Alert
+          message="上传须知："
+          description={
+            <span>
+              1.必须是zip包<br />
+              2.根目录必须有index.html文件
+            </span>
+          }
+          type="info"
+        />
+        <Card bodyStyle={{ textAlign: "center" }}>
+          <Upload {...props}>
+            <Button>
+              <Icon type="upload" /> 请选择Zip包
+            </Button>
+          </Upload>
+          原型类型：
+          <Select
+            style={{ width: "20%" }}
+            onChange={handleChange}
+            placeholder="请选择原型类型"
+          >
+            <Option value="jack">Jack</Option>
+            <Option value="lucy">Lucy</Option>
+            <Option value="disabled">Disabled</Option>
+            <Option value="Yiminghe">yiminghe</Option>
+          </Select>
+          <Button
+            className="upload-demo-start"
+            type="primary"
+            onClick={this.handleUpload}
+            disabled={__.fileList.length === 0}
+            loading={this.props.loading}
+          >
+            {this.props.loading ? "上传中……" : "开始上传"}
           </Button>
-        </Upload>
-        <Button
-          className="upload-demo-start"
-          type="primary"
-          onClick={this.handleUpload}
-          disabled={__.fileList.length === 0}
-          loading={this.props.loading}
-        >
-          {this.props.loading ? "上传中……" : "开始上传"}
-        </Button>
+        </Card>
       </div>
     );
   }

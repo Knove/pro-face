@@ -7,6 +7,8 @@ import withRouter from "umi/withRouter";
 
 const { Sider, Content, Header, Footer } = Layout;
 const { SubMenu } = Menu;
+const ButtonGroup = Button.Group;
+
 class Layouts extends React.Component {
   state = {
     layout: "",
@@ -28,6 +30,22 @@ class Layouts extends React.Component {
     // 路由跳转
     router.push(item.keyPath[0]);
   };
+  // 跳转三系列
+  routerGo = type => {
+    switch (type) {
+      case "afterVersion":
+        window.open("/propertyDir/oldversion.html");
+        break;
+      case "upload":
+        router.push("/ctrl/common/upload");
+        break;
+      case "ctrl":
+        router.push("/ctrl/pro");
+        break;
+      default:
+        break;
+    }
+  };
   render() {
     const layoutsType = ["/pro"];
     let layout = "";
@@ -45,6 +63,23 @@ class Layouts extends React.Component {
       <div>
         <Header className="header">
           <div class="pro_img" />
+          <div className="head-button">
+            <ButtonGroup>
+              <Button onClick={() => this.routerGo("afterVersion")}>
+                往期版本
+              </Button>
+              {this.props.index.sessionUserInfo.power !== "view" && (
+                <span>
+                  <Button onClick={() => this.routerGo("upload")}>
+                    上传原型
+                  </Button>
+                  <Button type="primary" onClick={() => this.routerGo("ctrl")}>
+                    产品管理
+                  </Button>
+                </span>
+              )}
+            </ButtonGroup>
+          </div>
           <Menu
             mode="horizontal"
             onClick={this.routerPath}
@@ -53,13 +88,13 @@ class Layouts extends React.Component {
           >
             {/* <Menu.Item key="#">论坛</Menu.Item> */}
             <Menu.Item key="/">
-              <a
+              {/* <a
                 onClick={() => {
                   window.location.href = "/";
                 }}
-              >
-                原型系统
-              </a>
+              > */}
+              原型系统
+              {/* </a> */}
             </Menu.Item>
             {layout === "/pro" && (
               <Menu.Item key="/ctrl/pro/">系统管理</Menu.Item>

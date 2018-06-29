@@ -1,4 +1,4 @@
-import request from "../utils/request";
+import { request } from "../utils/request";
 
 export function query() {
   return request("/api/users");
@@ -7,6 +7,6 @@ export function query() {
 export function addPrototypeType(params) {
   return request("/pro/addPrototypeType", {
     method: "POST",
-    body: JSON.stringify(params),
+    body: JSON.stringify(params)
   });
 }

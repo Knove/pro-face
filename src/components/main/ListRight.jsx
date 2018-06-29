@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Card, Divider, Button, Icon, Avatar } from "antd";
+import { Table, Card, message, Button, Icon, Avatar } from "antd";
 import router from "umi/router";
 import moment from "moment";
 const { Meta } = Card;
@@ -16,7 +16,15 @@ class ListRight extends React.Component {
         dataIndex: "name",
         key: "name",
         width: "30%",
-        render: (text,record) => <a href={"/propertyDir/"+ text + "V" + record.version + "/index.html"} target="_blank" rel="noopener noreferrer">{text}</a>
+        render: (text, record) => (
+          <a
+            href={"/propertyDir/" + text + "V" + record.version + "/index.html"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {text}
+          </a>
+        )
       },
       {
         title: "版本",
@@ -35,7 +43,7 @@ class ListRight extends React.Component {
         dataIndex: "date",
         key: "date",
         width: "20%",
-        render: text => <span>{moment(text).format('YY/MM/DD HH:mm')}</span>
+        render: text => <span>{moment(text).format("YY/MM/DD HH:mm")}</span>
       },
       {
         title: "备注",
@@ -70,74 +78,15 @@ class ListRight extends React.Component {
                 src={require("../../assets/file-logo/word-c.jpg")}
               />
             }
-            actions={[<Icon type="arrow-down" />, <Icon type="ellipsis" />]}
+            actions={[
+              <Icon
+                type="arrow-down"
+                onCLick={() => message.info("暂未开放")}
+              />,
+              <Icon type="ellipsis" onCLick={() => message.info("暂未开放")} />
+            ]}
           >
-            <Meta title="核心文档" description="此文档是技术文档" />
-          </Card>
-          <Card
-            className="file-card"
-            cover={
-              <img
-                className="icon-img"
-                alt="example"
-                src={require("../../assets/file-logo/ppt-c.jpg")}
-              />
-            }
-            actions={[<Icon type="arrow-down" />, <Icon type="ellipsis" />]}
-          >
-            <Meta title="核心文档" description="此文档是技术文档" />
-          </Card>
-          <Card
-            className="file-card"
-            cover={
-              <img
-                className="icon-img"
-                alt="example"
-                src={require("../../assets/file-logo/word-c.jpg")}
-              />
-            }
-            actions={[<Icon type="arrow-down" />, <Icon type="ellipsis" />]}
-          >
-            <Meta title="核心文档" description="此文档是技术文档" />
-          </Card>
-          <Card
-            className="file-card"
-            cover={
-              <img
-                className="icon-img"
-                alt="example"
-                src={require("../../assets/file-logo/ppt-c.jpg")}
-              />
-            }
-            actions={[<Icon type="arrow-down" />, <Icon type="ellipsis" />]}
-          >
-            <Meta title="核心文档" description="此文档是技术文档" />
-          </Card>
-          <Card
-            className="file-card"
-            cover={
-              <img
-                className="icon-img"
-                alt="example"
-                src={require("../../assets/file-logo/ppt-c.jpg")}
-              />
-            }
-            actions={[<Icon type="arrow-down" />, <Icon type="ellipsis" />]}
-          >
-            <Meta title="核心文档" description="此文档是技术文档" />
-          </Card>
-          <Card
-            className="file-card"
-            cover={
-              <img
-                className="icon-img"
-                alt="example"
-                src={require("../../assets/file-logo/excel-c.jpg")}
-              />
-            }
-            actions={[<Icon type="arrow-down" />, <Icon type="ellipsis" />]}
-          >
-            <Meta title="核心文档" description="此文档是技术文档" />
+            <Meta title="相关文档" description="现在该原型下没有文档哦！" />
           </Card>
         </Card>
       </div>

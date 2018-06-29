@@ -3,7 +3,7 @@ export default {
     "/pro": {
       target: "http://localhost:7777/",
       changeOrigin: true,
-      pathRewrite: { "^/pro": "" }
+      pathRewrite: { "^/pro": "/pro" }
     }
   }
 };
