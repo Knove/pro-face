@@ -1,5 +1,14 @@
 import React from "react";
-import { Upload, Button, Icon, Card, Alert, Select, message } from "antd";
+import {
+  Upload,
+  Button,
+  Icon,
+  Card,
+  Alert,
+  Select,
+  message,
+  Input
+} from "antd";
 import { connect } from "dva";
 
 const Option = Select.Option;
@@ -12,6 +21,7 @@ class UploadFile extends React.Component {
       const formData = new FormData();
       formData.append("fileUpload", fileList[0]);
       formData.append("fileType", this.props.upload.uploadType);
+      formData.append("fileText", this.props.upload.fileText);
 
       this.props.dispatch({
         type: "upload/uploadFile",
@@ -34,6 +44,18 @@ class UploadFile extends React.Component {
         uploadType: value
       }
     });
+  };
+  textChange = value => {
+    if (value.target.value.length <= 30) {
+      this.props.dispatch({
+        type: "upload/save",
+        payload: {
+          fileText: value.target.value
+        }
+      });
+    } else {
+      message.warn("简介字数请不要超过30个字符！");
+    }
   };
   render() {
     const __ = this.props.upload;
@@ -71,8 +93,10 @@ class UploadFile extends React.Component {
           message="上传须知："
           description={
             <span>
-              1.必须是zip包<br />
-              2.根目录必须有index.html文件
+              1.上传的压缩包必须是<span style={{ color: "red" }}>Zip</span>格式，推荐导出文件夹后使用Winrar压缩，尽量不要使用直接导出的zip包。<br />
+              2.根目录必须有<span style={{ color: "red" }}>index.html</span>文件，否则上传上去会无法访问！<br />
+              3.上传前请在本地打开index.html尝试是否有界面。<br />
+              4.上传时候的压缩包文件名没有意义，上传后将直接成为该原型类型的最新版本。<br />
             </span>
           }
           type="info"
@@ -83,14 +107,22 @@ class UploadFile extends React.Component {
               <Icon type="upload" /> 请选择Zip包
             </Button>
           </Upload>
+          原型备注：
+          <Input
+            style={{ width: "30%", marginTop: 10 }}
+            placeholder="选填，原型备注"
+            onChange={this.textChange}
+          />{" "}
+          <br />
           原型类型：
           <Select
-            style={{ width: "20%" }}
+            style={{ width: "30%", marginTop: 10 }}
             onChange={this.handleChange}
             placeholder="请选择原型类型"
           >
             {typeOption}
           </Select>
+          <br />
           <Button
             className="upload-demo-start"
             type="primary"

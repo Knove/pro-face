@@ -1,4 +1,5 @@
 import { queryPrototypeType, uploadFile, uploadFileToType } from "../services/common";
+import { queryPrototype } from "../services/index";
 import { message } from "antd";
 export default {
   namespace: "upload",
@@ -6,8 +7,10 @@ export default {
   state: {
     fileList: [], // 上传的文件List
     uploadType: "", // 上传类型！
+    connectPro: "", // 关联原型
     PrototypeTypeList: [], // 获取到的所有原型 类型 List
-    fileText: "" // 文件简介
+    fileText: "", // 文件简介
+    PrototypeList: [], // 根据原型类型id 获取到的原型List
   },
 
   reducers: {
@@ -51,6 +54,18 @@ export default {
         });
       } else
         message.error("获取列表失败，请刷新重试。");
+    },
+    // 根据原型类型id 获取原型
+    *queryPrototype({ payload }, { call, put, select }) {
+      const backData = yield call(queryPrototype, payload);
+      if (backData.data && backData.data.status === "200") {
+        yield put({
+          type: "save",
+          payload: {
+            PrototypeList: backData.data.data.pageData
+          }
+        });
+      } else message.error("获取列表失败，请刷新重试。");
     },
   },
 

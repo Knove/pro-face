@@ -1,5 +1,9 @@
 import { getSessionUser } from "../services/common";
-import { queryPrototypeType, queryPrototype, queryDocByTypeId } from "../services/index";
+import {
+  queryPrototypeType,
+  queryPrototype,
+  queryDocByTypeId
+} from "../services/index";
 import { message } from "antd";
 export default {
   namespace: "index",
@@ -8,7 +12,7 @@ export default {
     sessionUserInfo: {}, // 获取到的session User 信息
     PrototypeTypeList: [], // 左侧 原型  类型 的列表
     PrototypeList: [], // 右侧 原型 的列表
-    DocList: [], // 右侧的 相关Doc 的列表
+    DocList: [] // 右侧的 相关Doc 的列表
   },
 
   reducers: {
@@ -35,8 +39,7 @@ export default {
         if (
           backData.data.data.power !== "admin" &&
           backData.data.data.power !== "ctrl" &&
-          !backData.data.data.checkUser &&
-          !backData.data.data.alterPass
+          (!backData.data.data.checkUser || !backData.data.data.alterPass)
         )
           // 权限不足，强制退出
           window.location.href = "/";
@@ -54,7 +57,7 @@ export default {
             sessionUserInfo: backData.data.data
           }
         });
-        if (!backData.data.data.checkUser && !backData.data.data.alterPass)
+        if (!backData.data.data.checkUser || !backData.data.data.alterPass)
           // 权限不足，强制退出
           window.location.href = "/";
       } else

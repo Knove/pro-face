@@ -39,6 +39,9 @@ class Layouts extends React.Component {
       case "upload":
         router.push("/ctrl/common/upload");
         break;
+      case "uploadFile":
+        router.push("/ctrl/pro/add-type-file");
+        break;
       case "ctrl":
         router.push("/ctrl/pro");
         break;
@@ -63,28 +66,32 @@ class Layouts extends React.Component {
       <div>
         <Header className="header">
           <div class="pro_img" />
-          {(this.props.index.sessionUserInfo.checkUser === true && this.props.index.sessionUserInfo.alterPass === true) && (
-            <div className="head-button">
-              <ButtonGroup>
-                <Button onClick={() => this.routerGo("afterVersion")}>
-                  往期版本
-                </Button>
-                {this.props.index.sessionUserInfo.power !== "view" && (
-                  <span>
-                    <Button onClick={() => this.routerGo("upload")}>
-                      上传原型
-                    </Button>
-                    <Button
-                      type="primary"
-                      onClick={() => this.routerGo("ctrl")}
-                    >
-                      产品管理
-                    </Button>
-                  </span>
-                )}
-              </ButtonGroup>
-            </div>
-          )}
+          {this.props.index.sessionUserInfo.checkUser === true &&
+            this.props.index.sessionUserInfo.alterPass === true && (
+              <div className="head-button">
+                <ButtonGroup>
+                  <Button onClick={() => this.routerGo("afterVersion")}>
+                    往期版本
+                  </Button>
+                  {this.props.index.sessionUserInfo.power !== "view" && (
+                    <>
+                      <Button onClick={() => this.routerGo("upload")}>
+                        上传原型
+                      </Button>
+                      <Button onClick={() => this.routerGo("uploadFile")}>
+                        上传文档
+                      </Button>
+                      <Button
+                        type="primary"
+                        onClick={() => this.routerGo("ctrl")}
+                      >
+                        产品管理
+                      </Button>
+                    </>
+                  )}
+                </ButtonGroup>
+              </div>
+            )}
 
           <Menu
             mode="horizontal"
@@ -142,7 +149,9 @@ class Layouts extends React.Component {
                 >
                   {/* <Menu.Item key="/ctrl/pro/edit">编辑原型</Menu.Item> */}
                   <Menu.Item key="/ctrl/pro/add">增加原型种类</Menu.Item>
-                  <Menu.Item key="/ctrl/pro/add-type-file">上传原型文档</Menu.Item>
+                  <Menu.Item key="/ctrl/pro/add-type-file">
+                    上传原型文档
+                  </Menu.Item>
                 </SubMenu>
                 <SubMenu
                   key="角色管理"
