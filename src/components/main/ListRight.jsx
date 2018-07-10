@@ -6,7 +6,6 @@ import iconExport from "../../utils/iconExport";
 const { Meta } = Card;
 class ListRight extends React.Component {
   FileList = fileList => {
-    console.log(fileList);
     return fileList.map(item => {
       const index1 = item.file_name.lastIndexOf(".");
       const index2 = item.file_name.length;
@@ -51,6 +50,29 @@ class ListRight extends React.Component {
       );
     });
   };
+  FileListInfo = fileList => {
+    return fileList.map(item => {
+      const index1 = item.file_name.lastIndexOf(".");
+      const index2 = item.file_name.length;
+      const postf = item.file_name.substring(index1, index2); //后缀名
+      return (
+        <span className="file-ex">
+          <img
+            className="table-icon-info-img"
+            alt="example"
+            src={iconExport(postf)}
+          />
+          <a
+            href={"/doc-file/" + item._id + "/" + item.file_name}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {item.file_name}
+          </a>
+        </span>
+      );
+    });
+  };
   render() {
     const __ = this.props.props.index;
     const h =
@@ -92,20 +114,20 @@ class ListRight extends React.Component {
         width: "20%",
         render: text => <span>{moment(text).format("YY/MM/DD HH:mm")}</span>
       },
-      {
-        title: "备注",
-        dataIndex: "file_text",
-        key: "file_text",
-        width: "10%",
-        render: text =>
-          !text ? (
-            text
-          ) : (
-            <Popover content={text} title="备注" trigger="hover">
-              <a>查看</a>
-            </Popover>
-          )
-      },
+      // {
+      //   title: "备注",
+      //   dataIndex: "file_text",
+      //   key: "file_text",
+      //   width: "10%",
+      //   render: text =>
+      //     !text ? (
+      //       text
+      //     ) : (
+      //       <Popover content={text} title="备注" trigger="hover">
+      //         <a>查看</a>
+      //       </Popover>
+      //     )
+      // },
       {
         title: "关联文档",
         dataIndex: "file_list",
@@ -129,11 +151,17 @@ class ListRight extends React.Component {
             className="file-card"
             cover={
               <div className="file-icon">
-                <img
-                  className="icon-img"
-                  alt="example"
-                  src={iconExport(postf)}
-                />
+                <a
+                  href={"/doc-file/" + item._id + "/" + item.file_name}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    className="icon-img"
+                    alt="example"
+                    src={iconExport(postf)}
+                  />
+                </a>
               </div>
             }
             actions={[
@@ -175,15 +203,31 @@ class ListRight extends React.Component {
         );
       });
     const data = this.props.props.index.PrototypeList.sort(sequence);
+    const tableData = data.map(item => {
+      item.description = (
+        <>
+          {item.text && (
+            <>
+              备注：{item.text}
+              <br />
+            </>
+          )}
+          {item.file_list.length > 0 && "关联文档:"}
+          {item.file_list.length
+            ? this.FileListInfo(item.file_list)
+            : ""}
+        </>
+      );
+    });
     const loading = this.props.props.loading;
-    function sequence(a,b){
-        if (parseFloat(a.version, 10)> parseFloat(b.version, 10)) {
-            return -1;
-        }else if(parseFloat(a.version, 10) < parseFloat(b.version, 10)){
-            return 1
-        }else{
-            return 0;
-        }
+    function sequence(a, b) {
+      if (parseFloat(a.version, 10) > parseFloat(b.version, 10)) {
+        return -1;
+      } else if (parseFloat(a.version, 10) < parseFloat(b.version, 10)) {
+        return 1;
+      } else {
+        return 0;
+      }
     }
     return (
       <div>
@@ -195,6 +239,9 @@ class ListRight extends React.Component {
           style={{ minHeight: h / 2.2 }}
           scroll={{ y: h / 3 }}
           loading={loading}
+          expandedRowRender={record => (
+            <p style={{ margin: 0 }}>{record.description}</p>
+          )}
           locale={{
             emptyText: "这里还未上传任何原型哦！"
           }}
