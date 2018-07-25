@@ -61,3 +61,10 @@ export function queryPrototypeType(params) {
     body: params
   });
 }
+
+export function checkUser(params) {
+  return request("/pro/checkUser", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}

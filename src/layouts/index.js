@@ -50,7 +50,7 @@ class Layouts extends React.Component {
     }
   };
   render() {
-    const layoutsType = ["/pro"];
+    const layoutsType = ["/pro", "login"];
     let layout = "";
     layoutsType.map(item => {
       if (router.location.pathname.indexOf(item) > 0) {
@@ -64,56 +64,49 @@ class Layouts extends React.Component {
         document.body.clientHeight) - 215;
     return (
       <div>
-        <Header className="header">
-          <div class="pro_img" />
-          {this.props.index.sessionUserInfo.checkUser === true &&
-            this.props.index.sessionUserInfo.alterPass === true && (
-              <div className="head-button">
-                <ButtonGroup>
-                  <Button onClick={() => this.routerGo("afterVersion")}>
-                    往期版本
-                  </Button>
-                  {this.props.index.sessionUserInfo.power !== "view" && (
-                    <>
-                      <Button onClick={() => this.routerGo("upload")}>
-                        上传原型
-                      </Button>
-                      <Button onClick={() => this.routerGo("uploadFile")}>
-                        上传文档
-                      </Button>
-                      <Button
-                        type="primary"
-                        onClick={() => this.routerGo("ctrl")}
-                      >
-                        产品管理
-                      </Button>
-                    </>
-                  )}
-                </ButtonGroup>
-              </div>
-            )}
+        {layout !== "login" && (
+          <Header className="header">
+            <div class="pro_img" />
+            {this.props.index.sessionUserInfo.checkUser === true &&
+              this.props.index.sessionUserInfo.alterPass === true && (
+                <div className="head-button">
+                  <ButtonGroup>
+                    <Button onClick={() => this.routerGo("afterVersion")}>
+                      往期版本
+                    </Button>
+                    {this.props.index.sessionUserInfo.power !== "view" && (
+                      <>
+                        <Button onClick={() => this.routerGo("upload")}>
+                          上传原型
+                        </Button>
+                        <Button onClick={() => this.routerGo("uploadFile")}>
+                          上传文档
+                        </Button>
+                        <Button
+                          type="primary"
+                          onClick={() => this.routerGo("ctrl")}
+                        >
+                          产品管理
+                        </Button>
+                      </>
+                    )}
+                  </ButtonGroup>
+                </div>
+              )}
 
-          <Menu
-            mode="horizontal"
-            onClick={this.routerPath}
-            defaultSelectedKeys={["/ctrl"]}
-            style={{ lineHeight: "64px" }}
-          >
-            {/* <Menu.Item key="#">论坛</Menu.Item> */}
-            <Menu.Item key="/">
-              {/* <a
-                onClick={() => {
-                  window.location.href = "/";
-                }}
-              > */}
-              原型系统
-              {/* </a> */}
-            </Menu.Item>
-            {layout === "/pro" && (
-              <Menu.Item key="/ctrl/pro/">系统管理</Menu.Item>
-            )}
-          </Menu>
-        </Header>
+            <Menu
+              mode="horizontal"
+              onClick={this.routerPath}
+              defaultSelectedKeys={["/ctrl"]}
+              style={{ lineHeight: "64px" }}
+            >
+              <Menu.Item key="/">原型系统</Menu.Item>
+              {layout === "/pro" && (
+                <Menu.Item key="/ctrl/pro/">系统管理</Menu.Item>
+              )}
+            </Menu>
+          </Header>
+        )}
         {/*
                  管理页面布局 pro
         */}
@@ -210,8 +203,8 @@ class Layouts extends React.Component {
           </Layout>
         )}
 
-        {layout === "" && this.props.children}
-        {layout !== "" && (
+        {(layout === "" || layout === "login") && this.props.children}
+        {(layout !== "" && layout !== "login") && (
           <Footer style={{ textAlign: "center" }}>
             ©2018 北京辰森世纪科技股份有限公司
           </Footer>
