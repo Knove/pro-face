@@ -1,6 +1,6 @@
 import React from "react";
 import router from "umi/router";
-import "babel-polyfill";
+// import "babel-polyfill";
 import { Layout, Menu, Icon, Breadcrumb, Button } from "antd";
 import { connect } from "dva";
 import withRouter from "umi/withRouter";
