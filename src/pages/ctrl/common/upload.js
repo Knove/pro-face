@@ -15,7 +15,7 @@ const Option = Select.Option;
 
 class UploadFile extends React.Component {
   handleUpload = () => {
-    if (this.props.upload.uploadType) {
+    if (this.props.upload.uploadType && this.props.upload.fileText) {
       const { fileList } = this.props.upload;
       console.log(fileList);
       const formData = new FormData();
@@ -34,7 +34,7 @@ class UploadFile extends React.Component {
         }
       });
     } else {
-      message.error("请选择原型类型！");
+      message.error("请填写备注和选择原型类型！");
     }
   };
   handleChange = value => {
@@ -97,6 +97,7 @@ class UploadFile extends React.Component {
               2.根目录必须有<span style={{ color: "red" }}>index.html</span>文件，否则上传上去会无法访问！<br />
               3.上传前请在本地打开index.html尝试是否有界面。<br />
               4.上传时候的压缩包文件名没有意义，上传后将直接成为该原型类型的最新版本。<br />
+              {/* 5.在这里上传原型后，将会邮件通知有查看该原型权限的用户。<br /> */}
             </span>
           }
           type="info"
@@ -110,9 +111,9 @@ class UploadFile extends React.Component {
           原型备注：
           <Input
             style={{ width: "30%", marginTop: 10 }}
-            placeholder="选填，原型备注"
+            placeholder="必填，原型备注"
             onChange={this.textChange}
-          />{" "}
+          />
           <br />
           原型类型：
           <Select

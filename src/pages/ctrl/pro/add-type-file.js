@@ -15,7 +15,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 class AddTypeFile extends React.Component {
   handleUpload = () => {
-    if (this.props.upload.uploadType) {
+    if (this.props.upload.uploadType && this.props.upload.fileText) {
       const { fileList } = this.props.upload;
       console.log(fileList);
       const formData = new FormData();
@@ -34,7 +34,7 @@ class AddTypeFile extends React.Component {
         }
       });
     } else {
-      message.error("请选择原型类型！");
+      message.error("请填写备注和选择原型类型！");
     }
   };
   // 选择原型类型 触发的操作
@@ -131,7 +131,7 @@ class AddTypeFile extends React.Component {
           文档介绍：
           <Input
             style={{ width: "40%", marginTop: 10 }}
-            placeholder="选填。请写此文档的相关介绍。不多于15字！"
+            placeholder="必填。请写此文档的相关介绍。不多于15字！"
             onChange={this.textChange}
           />
           <br />

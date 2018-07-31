@@ -206,9 +206,9 @@ class ListRight extends React.Component {
     const tableData = data.map(item => {
       item.description = (
         <>
-          {item.text && (
+          {item.file_text && (
             <>
-              备注：{item.text}
+              备注：{item.file_text}
               <br />
             </>
           )}
