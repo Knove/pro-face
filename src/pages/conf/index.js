@@ -1,13 +1,67 @@
 import React from "react";
 import { connect } from "dva";
 import moment from "moment";
-import { Menu, Icon, Table } from "antd";
+import {
+  Modal,
+  Slider,
+  Table,
+  Form,
+  Input,
+  DatePicker,
+  Select,
+  InputNumber
+} from "antd";
 import router from "umi/router";
 
-moment.lang("cn");
+const Option = Select.Option;
+const FormItem = Form.Item;
 
 class Index extends React.Component {
+  alertSaveModlue = rows => {
+    this.props.dispatch({
+      type: "conf/save",
+      payload: {
+        visible: true,
+        modalDate: rows.dateMoment,
+        modalConf: String(rows.confId)
+      }
+    });
+  };
+  mergeData = payload => {
+    this.props.dispatch({
+      type: "conf/save",
+      payload
+    });
+  };
+  submitOk = () => {
+    this.props.dispatch({
+      type: "conf/addConference",
+      payload : {}
+    });
+  };
   render() {
+    const data = this.props.conf;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 20 }
+      }
+    };
+    const marks = {};
+    for (let i = 0; i <= 24; i += 2) {
+      marks[i] = moment("207707278", "YYYYMMDDH")
+        .add(i / 2, "hour")
+        .format("HH:mm");
+    }
+    function formatter(value) {
+      return moment("207707278", "YYYYMMDDH")
+        .add(value / 2, "hour")
+        .format("HH:mm");
+    }
     const back_data = [
       {
         date_start: 4,
@@ -15,7 +69,8 @@ class Index extends React.Component {
         date_day: Date(),
         type: "1",
         conf: "2",
-        title: "济南19届新同学入职济南19届新同学入职济南19届新同学入职济南19届新同学入职",
+        title:
+          "济南19届新同学入职济南19届新同学入职济南19届新同学入职济南19届新同学入职",
         num: 44,
         user: "孙佳勇",
         user_id: "123123213",
@@ -130,7 +185,13 @@ class Index extends React.Component {
         render: (value, row, index) => {
           if (value && value.type && value.type.indexOf("k") < 0) {
             return {
-              children: <div className={"full conf-lv" + value.type} ><span className="td-text">{value.user}（{value.num}人）{value.title}</span></div>,
+              children: (
+                <div className={"full conf-lv" + value.type}>
+                  <span className="td-text">
+                    {value.user}（{value.num}人）{value.title}
+                  </span>
+                </div>
+              ),
               props: {
                 colSpan: value.date_end - value.date_start + 1
               }
@@ -144,7 +205,12 @@ class Index extends React.Component {
             };
           }
           return {
-            children: <div className={"full conf-lv" + value} />,
+            children: (
+              <div
+                className={"full conf-lv" + value}
+                onClick={() => this.alertSaveModlue(row)}
+              />
+            ),
             props: {
               colSpan: 1
             }
@@ -160,13 +226,12 @@ class Index extends React.Component {
       "定风波",
       "过龙门"
     ];
-    const data = [];
+    const tableData = [];
     for (let i = 1; i <= 42; i++) {
       // 初始化数据
       const tableDay = moment(moment(Date()).format("YYYYMMDD"), "YYYYMMDD")
         .add(4 * (i - 1), "hour")
         .format("YYYY/MM/DD");
-      console.log(tableDay);
       const daydata = {
         key: i,
         date: (
@@ -177,32 +242,115 @@ class Index extends React.Component {
               .format("dddd")}
           </>
         ),
+        confId: (i - 1) % 6,
+        time: tableDay,
+        dateMoment: moment(moment(Date()).format("YYYYMMDD"), "YYYYMMDD").add(
+          4 * (i - 1),
+          "hour"
+        ),
         conf: confArray[(i - 1) % 6]
       };
       // 获取日期数据
       back_data.map(item => {
-        console.log((i - 1) % 6, parseInt(item.conf));
         if (
           moment(item.date_day).format("YYYY/MM/DD") === tableDay &&
           parseInt(item.conf) === (i - 1) % 6
         ) {
-          console.log((i - 1) % 6, parseInt(item.conf), "done");
           daydata["time" + item.date_start] = item;
           for (let i = 1; i <= item.date_end - item.date_start; i++)
-            daydata["time" + (item.date_start + i )] = item.type + "k";
+            daydata["time" + (item.date_start + i)] = item.type + "k";
         }
       });
 
-      data.push(daydata);
+      tableData.push(daydata);
     }
     return (
       <div className="main-div conf">
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={tableData}
           bordered
           pagination={false}
         />
+        <Modal
+          title="预定会议室"
+          visible={data.visible}
+          width="50%"
+          okText="预定"
+          cancelText="取消"
+          onOk={() => this.submitOk()}
+          destroyOnClose
+          onCancel={() =>
+            this.mergeData({
+              visible: false,
+              modalTitle: "",
+              modalNumber: 0,
+              modalConf: "",
+              modalType: "1",
+              modalTime: [0, 24],
+              modalDate: ""
+            })
+          }
+        >
+          <FormItem {...formItemLayout} label="会议主题">
+            <Input
+              onChange={value =>
+                this.mergeData({ modalTitle: value.target.value })
+              }
+              value={data.modalTitle}
+            />
+          </FormItem>
+          <FormItem {...formItemLayout} label="会议日期">
+            <DatePicker value={data.modalDate} />
+          </FormItem>
+          <FormItem {...formItemLayout} label="会议时间段">
+            <Slider
+              range
+              min={0}
+              max={24}
+              value={data.modalTime}
+              tipFormatter={formatter}
+              marks={marks}
+              onChange={value => this.mergeData({ modalTime: value })}
+            />
+          </FormItem>
+          <FormItem {...formItemLayout} label="会议室">
+            <Select
+              style={{ width: "100%" }}
+              placeholder="请选择会议室"
+              onChange={value => this.mergeData({ modalConf: value })}
+              value={data.modalConf}
+            >
+              <Option value="0">采桑子</Option>
+              <Option value="1">如梦令</Option>
+              <Option value="2">画堂春</Option>
+              <Option value="3">西江月</Option>
+              <Option value="4">定风波</Option>
+              <Option value="5">过龙门</Option>
+            </Select>
+          </FormItem>
+          <FormItem {...formItemLayout} label="会议类型">
+            <Select
+              style={{ width: "100%" }}
+              placeholder="请选择会议类型"
+              onChange={value => this.mergeData({ modalType: value })}
+              value={data.modalType}
+            >
+              <Option value="1">小组级会议</Option>
+              <Option value="2">部门级会议</Option>
+              <Option value="3">公司级会议</Option>
+              <Option value="4">外部会议</Option>
+            </Select>
+          </FormItem>
+          <FormItem {...formItemLayout} label="会议人数">
+            <InputNumber
+              min={0}
+              max={200}
+              value={data.modalNumber}
+              onChange={value => this.mergeData({ modalNumber: value })}
+            />
+          </FormItem>
+        </Modal>
       </div>
     );
   }
