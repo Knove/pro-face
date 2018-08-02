@@ -6,3 +6,15 @@ export function addConference(params) {
     body: JSON.stringify(params)
   });
 }
+export function getConference(params) {
+  return request("/pro/getConference", {
+    method: "POST",
+    body: JSON.stringify(params)
+  });
+}
+export function deleteConference(params) {
+  return request("/pro/deleteConference", {
+    method: "POST",
+    body: JSON.stringify(params)
+  });
+}

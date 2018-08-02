@@ -4,6 +4,7 @@ import router from "umi/router";
 import { Layout, Menu, Icon, Breadcrumb, Button } from "antd";
 import { connect } from "dva";
 import withRouter from "umi/withRouter";
+import Manual from "../components/conf/Manual";
 
 const { Sider, Content, Header, Footer } = Layout;
 const { SubMenu } = Menu;
@@ -14,6 +15,12 @@ class Layouts extends React.Component {
     layout: "",
     breadCrumbLevelOne: "",
     breadCrumbLevelTwo: "辰森原型系统"
+  };
+  mergeData = payload => {
+    this.props.dispatch({
+      type: "conf/save",
+      payload
+    });
   };
   toggle = () => {
     this.setState({
@@ -50,7 +57,7 @@ class Layouts extends React.Component {
     }
   };
   render() {
-    const layoutsType = ["/pro", "login"];
+    const layoutsType = ["/pro", "login", "conf"];
     let layout = "";
     layoutsType.map(item => {
       if (router.location.pathname.indexOf(item) > 0) {
@@ -68,7 +75,8 @@ class Layouts extends React.Component {
           <Header className="header">
             <div class="pro_img" />
             {this.props.index.sessionUserInfo.checkUser === true &&
-              this.props.index.sessionUserInfo.alterPass === true && (
+              this.props.index.sessionUserInfo.alterPass === true &&
+              (layout === "" || layout === "/pro") && (
                 <div className="head-button">
                   <ButtonGroup>
                     <Button onClick={() => this.routerGo("afterVersion")}>
@@ -93,11 +101,25 @@ class Layouts extends React.Component {
                   </ButtonGroup>
                 </div>
               )}
-
+            {layout === "conf" && (
+              <div className="head-button">
+                <ButtonGroup>
+                  <Button
+                    onClick={() => this.mergeData({ manualVisable: true })}
+                  >
+                    会议室使用手册
+                  </Button>
+                  {/* <Button type="primary" onClick={() => this.routerGo("ctrl")}>
+                    预定管理
+                  </Button> */}
+                </ButtonGroup>
+                <Manual props={this.props} mergeData={this.mergeData} />
+              </div>
+            )}
             <Menu
               mode="horizontal"
               onClick={this.routerPath}
-              defaultSelectedKeys={["/"]}
+              defaultSelectedKeys={["/" + layout]}
               style={{ lineHeight: "64px" }}
             >
               <Menu.Item key="/">原型系统</Menu.Item>
@@ -203,12 +225,14 @@ class Layouts extends React.Component {
           </Layout>
         )}
 
-        {(layout === "" || layout === "login") && this.props.children}
-        {(layout !== "" && layout !== "login") && (
-          <Footer style={{ textAlign: "center" }}>
-            ©2018 北京辰森世纪科技股份有限公司
-          </Footer>
-        )}
+        {(layout === "" || layout === "login" || layout === "conf") &&
+          this.props.children}
+        {layout !== "" &&
+          layout !== "login" && (
+            <Footer style={{ textAlign: "center" }}>
+              ©2018 北京辰森世纪科技股份有限公司
+            </Footer>
+          )}
       </div>
     );
   }
@@ -216,6 +240,7 @@ class Layouts extends React.Component {
 // mapStateToProps内的参数需与model里的namespace一致
 function mapStateToProps(state) {
   const index = state.index;
-  return { index, loading: state.loading.models.index };
+  const conf = state.conf;
+  return { index, conf, loading: state.loading.models.index };
 }
 export default withRouter(connect(mapStateToProps)(Layouts));
