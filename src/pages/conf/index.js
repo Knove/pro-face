@@ -13,7 +13,8 @@ import {
   Spin,
   Icon,
   Button,
-  Popconfirm
+  Popconfirm,
+  Popover
 } from "antd";
 import router from "umi/router";
 
@@ -263,9 +264,11 @@ class Index extends React.Component {
     for (let i = 0; i <= 24; i++) {
       columns.push({
         title: (
-          <div style={{
-            textAlign: "center"
-          }}>
+          <div
+            style={{
+              textAlign: "center"
+            }}
+          >
             {moment("207707278", "YYYYMMDDH")
               .add(i / 2, "hour")
               .format("HH:mm")}
@@ -277,14 +280,21 @@ class Index extends React.Component {
           if (value && value.type && value.type.indexOf("k") < 0) {
             return {
               children: (
-                <div
-                  className={"full conf-lv" + value.type}
-                  onClick={() => this.alertViewModlue(row, value._id)}
-                >
-                  <span className="td-text">
+                <Popover
+                  content=<span>
                     {value.user}（{value.num}人）{value.title}
                   </span>
-                </div>
+                  trigger="hover"
+                >
+                  <div
+                    className={"full conf-lv" + value.type}
+                    onClick={() => this.alertViewModlue(row, value._id)}
+                  >
+                    <span className="td-text">
+                      {value.user}（{value.num}人）{value.title}
+                    </span>
+                  </div>
+                </Popover>
               ),
               props: {
                 colSpan: value.date_end - value.date_start + 1
