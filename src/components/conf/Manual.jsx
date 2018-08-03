@@ -106,8 +106,8 @@ class ListRight extends React.Component {
                   <span style={{ fontSize: 17 }}>
                     <span style={{ color: "#391085" }}>外部会议</span> {">"}{" "}
                     <span style={{ color: "#f5222d" }}>公司级会议</span>
-                    {">"} <span style={{ color: "#1890ff" }}>部门级会议</span>{" "}
-                    {">"} <span style={{ color: "#a0d911" }}>小组会议</span>
+                    {">"} <span style={{ color: "#a0d911" }}>部门级会议</span>{" "}
+                    {">"} <span style={{ color: "#1890ff" }}>小组会议</span>
                   </span>
                 </p>
                 <p>

@@ -14,7 +14,9 @@ import {
   Icon,
   Button,
   Popconfirm,
-  Popover
+  Popover,
+  Badge,
+  Tag
 } from "antd";
 import router from "umi/router";
 
@@ -23,13 +25,14 @@ const FormItem = Form.Item;
 const confirm = Modal.confirm;
 
 class Index extends React.Component {
-  alertSaveModlue = rows => {
+  alertSaveModlue = (rows, value) => {
     this.props.dispatch({
       type: "conf/save",
       payload: {
         visible: true,
         modalDate: rows.dateMoment,
-        modalConf: String(rows.confId)
+        modalConf: String(rows.confId),
+        modalTime: [value, 24]
       }
     });
   };
@@ -169,6 +172,7 @@ class Index extends React.Component {
         .format("HH:mm");
     }
     let confActionType = "信息加载中";
+    let deleteFlag = false;
     if (data.modalSeedata.date_day) {
       const startTime = moment(data.modalSeedata.date_day).add(
         8 + data.modalSeedata.date_start / 2,
@@ -179,11 +183,12 @@ class Index extends React.Component {
         "hours"
       );
       if (moment().diff(startTime) < 0) {
-        confActionType = "未开始";
+        deleteFlag = true;
+        confActionType = <Tag color="cyan">未开始</Tag>;
       } else if (moment().diff(startTime) >= 0 && moment().diff(endTime) < 0) {
-        confActionType = "进行中";
+        confActionType = <Tag color="#2db7f5">进行中</Tag>;
       } else if (moment().diff(endTime) >= 0) {
-        confActionType = "已结束";
+        confActionType = <Tag>已结束</Tag>;
       }
     }
 
@@ -262,6 +267,23 @@ class Index extends React.Component {
       }
     ];
     for (let i = 0; i <= 24; i++) {
+      let targetTime = moment("207707278", "YYYYMMDDH")
+        .add(i / 2, "hour")
+        .format("HH:mm");
+      if (
+        moment().isBetween(
+          moment(moment().format("YYYYMMDD"), "YYYYMMDD").add(
+            8 + i / 2,
+            "hour"
+          ),
+          moment(moment().format("YYYYMMDD"), "YYYYMMDD").add(
+            8 + (i + 1) / 2,
+            "hour"
+          )
+        )
+      ) {
+        targetTime = <span style={{color: "#1890ff", fontWeight: 600}}>{targetTime}</span>;
+      }
       columns.push({
         title: (
           <div
@@ -269,9 +291,7 @@ class Index extends React.Component {
               textAlign: "center"
             }}
           >
-            {moment("207707278", "YYYYMMDDH")
-              .add(i / 2, "hour")
-              .format("HH:mm")}
+            {targetTime}
           </div>
         ),
         dataIndex: "time" + i,
@@ -300,7 +320,7 @@ class Index extends React.Component {
                 colSpan: value.date_end - value.date_start + 1
               }
             };
-          } else if (value) {
+          } else if (value && value.indexOf("k") >= 0) {
             return {
               children: <div className={"full conf-lv" + value.type} />,
               props: {
@@ -311,8 +331,8 @@ class Index extends React.Component {
           return {
             children: (
               <div
-                className={"full conf-lv" + value}
-                onClick={() => this.alertSaveModlue(row)}
+                className="full conf-null"
+                onClick={() => this.alertSaveModlue(row, value)}
               />
             ),
             props: {
@@ -369,6 +389,9 @@ class Index extends React.Component {
         conf: confArray[(i - 1) % 6],
         dataInfo: [] // 放置信息集合
       };
+      for (let j = 0; j <= 24; j++) {
+        daydata["time" + j] = String(j);
+      }
       // 获取日期数据
       data.confData.map(item => {
         if (
@@ -479,10 +502,10 @@ class Index extends React.Component {
               value={data.modalType}
             >
               <Option value="1">
-                <span style={{ color: "#a0d911" }}>小组会议</span>
+                <span style={{ color: "#1890ff" }}>小组会议</span>
               </Option>
               <Option value="2">
-                <span style={{ color: "#1890ff" }}>部门级会议</span>
+                <span style={{ color: "#a0d911" }}>部门级会议</span>
               </Option>
               <Option value="3">
                 <span style={{ color: "#f5222d" }}>公司级会议</span>
@@ -507,7 +530,7 @@ class Index extends React.Component {
           visible={data.visibleSee}
           width="50%"
           footer={
-            confActionType === "未开始" &&
+            deleteFlag &&
             (data.modalSeedata.username === data.sessionUserInfo.username ||
               data.sessionUserInfo.power === "admin") ? (
               [
