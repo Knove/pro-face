@@ -109,9 +109,6 @@ class Layouts extends React.Component {
                   >
                     会议室使用手册
                   </Button>
-                  {/* <Button type="primary" onClick={() => this.routerGo("ctrl")}>
-                    预定管理
-                  </Button> */}
                 </ButtonGroup>
                 <Manual props={this.props} mergeData={this.mergeData} />
               </div>
@@ -122,7 +119,7 @@ class Layouts extends React.Component {
               defaultSelectedKeys={["/" + layout]}
               style={{ lineHeight: "64px" }}
             >
-              <Menu.Item key="/">原型系统</Menu.Item>
+              <Menu.Item key="/">产品原型</Menu.Item>
               <Menu.Item key="/conf">会议室</Menu.Item>
               {layout === "/pro" && (
                 <Menu.Item key="/ctrl/pro/">系统管理</Menu.Item>

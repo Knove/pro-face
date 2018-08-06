@@ -26,13 +26,20 @@ const confirm = Modal.confirm;
 
 class Index extends React.Component {
   alertSaveModlue = (rows, value) => {
+    let modalTime = [];
+    console.log(value);
+
+    if (value < 23) modalTime = [value, String(parseInt(value, 10) + 2)];
+    else if (value === "23") modalTime = [value, String(parseInt(value, 10) + 1)];
+    else modalTime = [value, value];
+    console.log(modalTime);
     this.props.dispatch({
       type: "conf/save",
       payload: {
         visible: true,
         modalDate: rows.dateMoment,
         modalConf: String(rows.confId),
-        modalTime: [value, 24]
+        modalTime,
       }
     });
   };

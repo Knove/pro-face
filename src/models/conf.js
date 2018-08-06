@@ -61,13 +61,13 @@ export default {
       // 要提前二小时预定！
       if (
         moment().diff(moment(modalTimeClear).add(8 + modalTime[0] / 2, "hours")) >
-        -7200000
+        -600000
       ) {
         Modal.info({
           title: "时间段提醒",
           content: (
             <div>
-              <p>请提前二小时预约会议室！</p>
+              <p>请提前十分钟预约会议室！</p>
             </div>
           )
         });
