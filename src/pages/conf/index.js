@@ -178,8 +178,9 @@ class Index extends React.Component {
         8 + data.modalSeedata.date_start / 2,
         "hours"
       );
+      // 8.5是因为时间段的往后半小时
       const endTime = moment(data.modalSeedata.date_day).add(
-        8 + data.modalSeedata.date_end / 2,
+        8.5 + data.modalSeedata.date_end / 2,
         "hours"
       );
       if (moment().diff(startTime) < 0) {
@@ -345,7 +346,7 @@ class Index extends React.Component {
     const confArray = [
       "采桑子",
       "如梦令",
-      "画唐春",
+      "画堂春",
       "西江月",
       "定风波",
       "过龙门"

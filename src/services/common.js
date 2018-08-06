@@ -58,7 +58,7 @@ export function uploadFileToType(params) {
 export function queryPrototypeType(params) {
   return request("/pro/queryPrototypeType", {
     method: "POST",
-    body: params
+    body: JSON.stringify(params),
   });
 }
 
