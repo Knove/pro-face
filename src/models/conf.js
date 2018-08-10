@@ -166,6 +166,9 @@ export default {
             sessionUserInfo: backData.data.data
           }
         });
+        if (!backData.data.data.checkUser || !backData.data.data.alterPass)
+          // 权限不足，强制退出
+          window.location.href = "/";
       } else {
         // 非法莫名直接访问，将直接跳到首页
         window.location.href = "/";
