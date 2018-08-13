@@ -42,20 +42,6 @@ class Add extends React.Component {
             value={__.prototypeTypeName}
           />
         </FormItem>
-        <FormItem
-          label="适用角色"
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 12 }}
-        >
-          <Select
-            placeholder="选择该原型的适用角色"
-            onChange={this.handleSelectChange}
-          >
-            <Option value="male" disabled>
-              暂未开放
-            </Option>
-          </Select>
-        </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 5 }}>
           <Popconfirm
             title="你确定要增加这一条原型类型么?"
