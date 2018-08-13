@@ -22,11 +22,6 @@ class Layouts extends React.Component {
       payload
     });
   };
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  };
   // 选择左侧Menu 发起行为
   routerPath = item => {
     // 改变面包屑

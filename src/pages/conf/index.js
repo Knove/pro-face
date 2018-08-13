@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import moment from "moment";
+import QueueAnim from "rc-queue-anim";
 import {
   Modal,
   Slider,
@@ -27,19 +28,17 @@ const confirm = Modal.confirm;
 class Index extends React.Component {
   alertSaveModlue = (rows, value) => {
     let modalTime = [];
-    console.log(value);
-
     if (value < 23) modalTime = [value, String(parseInt(value, 10) + 2)];
-    else if (value === "23") modalTime = [value, String(parseInt(value, 10) + 1)];
+    else if (value === "23")
+      modalTime = [value, String(parseInt(value, 10) + 1)];
     else modalTime = [value, value];
-    console.log(modalTime);
     this.props.dispatch({
       type: "conf/save",
       payload: {
         visible: true,
         modalDate: rows.dateMoment,
         modalConf: String(rows.confId),
-        modalTime,
+        modalTime
       }
     });
   };
@@ -290,7 +289,11 @@ class Index extends React.Component {
           )
         )
       ) {
-        targetTime = <span style={{color: "#1890ff", fontWeight: 600}}>{targetTime}</span>;
+        targetTime = (
+          <span style={{ color: "#1890ff", fontWeight: 600 }}>
+            {targetTime}
+          </span>
+        );
       }
       columns.push({
         title: (
