@@ -52,7 +52,7 @@ class Layouts extends React.Component {
     }
   };
   render() {
-    const layoutsType = ["/pro", "login", "conf"];
+    const layoutsType = ["/pro", "login", "conf", "404"];
     let layout = "";
     layoutsType.map(item => {
       if (router.location.pathname.indexOf(item) > 0) {
@@ -111,8 +111,8 @@ class Layouts extends React.Component {
             <Menu
               mode="horizontal"
               onClick={this.routerPath}
-              defaultSelectedKeys={["/" + layout]}
               style={{ lineHeight: "64px" }}
+              selectedKeys={["/" + layout]}
             >
               <Menu.Item key="/">产品原型</Menu.Item>
               <Menu.Item key="/conf">会议室</Menu.Item>
@@ -216,9 +216,7 @@ class Layouts extends React.Component {
             </Layout>
           </Layout>
         )}
-
-        {(layout === "" || layout === "login" || layout === "conf") &&
-          this.props.children}
+        {layout !== "/pro" && this.props.children}
         {layout !== "" &&
           layout !== "login" && (
             <Footer style={{ textAlign: "center" }}>
