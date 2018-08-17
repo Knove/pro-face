@@ -29,7 +29,7 @@ class notFound extends React.Component {
     return (
       <div style={{ height: h }} className="not-found-div">
         <TweenOne animation={this.state.animation} style={{ fontSize: 156 }}>
-          0
+          7
         </TweenOne>
         <QueueAnim delay={2000} className="queue-simple">
     <div key="a"><span>抱歉，页面找不到啦！</span></div>

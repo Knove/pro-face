@@ -219,7 +219,7 @@ class Layouts extends React.Component {
           </Layout>
         )}
         {layout !== "/pro" && this.props.children}
-        {layout !== "" &&
+        {layout !== "prod" && layout !== "" &&
           layout !== "login" && (
             <Footer style={{ textAlign: "center" }}>
               ©2018 北京辰森世纪科技股份有限公司
