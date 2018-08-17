@@ -51,7 +51,7 @@ class Layouts extends React.Component {
     }
   };
   render() {
-    const layoutsType = ["/pro", "login", "conf", "404", "chatbox", "pro"];
+    const layoutsType = ["/pro", "login", "conf", "404", "chatbox", "prod"];
     let layout = "";
     layoutsType.map(item => {
       if (router.location.pathname.indexOf(item) > 0) {
@@ -63,6 +63,7 @@ class Layouts extends React.Component {
       (window.innerHeight ||
         document.documentElement.clientHeight ||
         document.body.clientHeight) - 215;
+        console.log(layout);
     return (
       <div>
         {layout !== "login" && (
@@ -70,7 +71,7 @@ class Layouts extends React.Component {
             <div class="pro_img" />
             {this.props.index.sessionUserInfo.checkUser === true &&
               this.props.index.sessionUserInfo.alterPass === true &&
-              (layout === "pro" || layout === "/pro") && (
+              (layout === "prod" || layout === "/pro") && (
                 <div className="head-button">
                   <ButtonGroup>
                     <Button onClick={() => this.routerGo("afterVersion")}>
@@ -114,7 +115,7 @@ class Layouts extends React.Component {
               selectedKeys={["/" + layout]}
             >
               <Menu.Item key="/">工作台</Menu.Item>
-              <Menu.Item key="/pro">产品原型</Menu.Item>
+              <Menu.Item key="/prod">产品原型</Menu.Item>
               <Menu.Item key="/conf">会议室</Menu.Item>
 
               {layout === "/pro" && (

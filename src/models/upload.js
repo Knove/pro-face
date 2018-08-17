@@ -30,7 +30,7 @@ export default {
       console.log(backData);
       message.info("上传请求发起成功！正在跳转至主页……");
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.href = "/prod";
       }, 1000);
     },
     // 上传文档！
@@ -39,7 +39,7 @@ export default {
       console.log(backData);
       message.info("上传请求发起成功！正在跳转至主页……");
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.href = "/prod";
       }, 1000);
     },
     // 获取所有原型类型

@@ -113,7 +113,7 @@ export default {
             payload: {}
           });
         }
-        if (location.pathname === "/pro") {
+        if (location.pathname === "/prod") {
           dispatch({
             type: "getSessionUserForNormal",
             payload: {}
