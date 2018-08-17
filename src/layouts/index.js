@@ -1,6 +1,5 @@
 import React from "react";
 import router from "umi/router";
-// import "babel-polyfill";
 import { Layout, Menu, Icon, Breadcrumb, Button } from "antd";
 import { connect } from "dva";
 import withRouter from "umi/withRouter";
@@ -52,7 +51,7 @@ class Layouts extends React.Component {
     }
   };
   render() {
-    const layoutsType = ["/pro", "login", "conf", "404"];
+    const layoutsType = ["/pro", "login", "conf", "404", "chatbox", "pro"];
     let layout = "";
     layoutsType.map(item => {
       if (router.location.pathname.indexOf(item) > 0) {
@@ -71,7 +70,7 @@ class Layouts extends React.Component {
             <div class="pro_img" />
             {this.props.index.sessionUserInfo.checkUser === true &&
               this.props.index.sessionUserInfo.alterPass === true &&
-              (layout === "" || layout === "/pro") && (
+              (layout === "pro" || layout === "/pro") && (
                 <div className="head-button">
                   <ButtonGroup>
                     <Button onClick={() => this.routerGo("afterVersion")}>
@@ -114,8 +113,10 @@ class Layouts extends React.Component {
               style={{ lineHeight: "64px" }}
               selectedKeys={["/" + layout]}
             >
-              <Menu.Item key="/">产品原型</Menu.Item>
+              <Menu.Item key="/">工作台</Menu.Item>
+              <Menu.Item key="/pro">产品原型</Menu.Item>
               <Menu.Item key="/conf">会议室</Menu.Item>
+
               {layout === "/pro" && (
                 <Menu.Item key="/ctrl/pro/">系统管理</Menu.Item>
               )}
@@ -227,7 +228,6 @@ class Layouts extends React.Component {
     );
   }
 }
-// mapStateToProps内的参数需与model里的namespace一致
 function mapStateToProps(state) {
   const index = state.index;
   const conf = state.conf;

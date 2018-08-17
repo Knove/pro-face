@@ -1,7 +1,7 @@
 import React from "react";
 import router from "umi/router";
 import TweenOne from "rc-tween-one";
-import Texty from 'rc-texty';
+import QueueAnim from 'rc-queue-anim';
 import Children from "rc-tween-one/lib/plugin/ChildrenPlugin";
 
 TweenOne.plugins.push(Children);
@@ -15,7 +15,7 @@ class notFound extends React.Component {
     this.setState({
       animation: {
         Children: { value: 404, floatLength: 0 },
-        duration: 4000
+        duration: 3000
       }
     });
   }
@@ -31,10 +31,13 @@ class notFound extends React.Component {
         <TweenOne animation={this.state.animation} style={{ fontSize: 156 }}>
           0
         </TweenOne>
-        <Texty><span>抱歉，页面找不到啦！</span></Texty>
+        <QueueAnim delay={3000} className="queue-simple">
+    <div key="a"><span>抱歉，页面找不到啦！</span></div>
+    <div key="b"><a onClick={() => router.push("/")}>返回主页</a></div>
 
-        <br />
-        <a onClick={() => router.push("/")}>返回主页</a>
+  </QueueAnim>
+
+
       </div>
     );
   }
