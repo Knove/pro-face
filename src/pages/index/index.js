@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "dva";
-import { Card, Icon, Breadcrumb } from "antd";
+import { Card, Row, Col } from "antd";
 import router from "umi/router";
 import moment from "moment";
 import QueueAnim from "rc-queue-anim";
+import { ChatBox, Updating } from "./components";
 
 class Chatbox extends React.Component {
   render() {
@@ -18,7 +19,9 @@ class Chatbox extends React.Component {
         ? "早上好"
         : now >= 11 && now < 14
           ? "中午好"
-          : now >= 14 && now < 18 ? "下午好" : "晚上好";
+          : now >= 14 && now < 18
+            ? "下午好"
+            : "晚上好";
     return (
       <div style={{ minHeight: h }} className="main-div">
         <Card className="chatBox-title">
@@ -36,9 +39,22 @@ class Chatbox extends React.Component {
             </div>
           </QueueAnim>
         </Card>
-        {/* <Card title="Card title">
-
-        </Card> */}
+        <Row style={{ margin: "0 10%" }} gutter={16}>
+          <Col span={16}>
+            <ChatBox
+              data={data}
+              action={this.props}
+              loading={this.props.loading}
+            />
+          </Col>
+          <Col span={8}>
+            <Updating
+              data={data}
+              action={this.props}
+              loading={this.props.loading}
+            />
+          </Col>
+        </Row>
       </div>
     );
   }
