@@ -22,11 +22,10 @@ class Updating extends React.Component {
     });
   };
   render() {
-    const __ = this.props.data.chatbox;
     const h =
       (window.innerHeight ||
         document.documentElement.clientHeight ||
-        document.body.clientHeight) - 248;
+        document.body.clientHeight) - 548;
     return (
       <div style={{ paddingTop: 15, height: h }}>
         <Card title="动态" className="chatbox-updating" bordered={false}>Card content</Card>

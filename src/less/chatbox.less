@@ -9,7 +9,7 @@
     font-size: 14px;
     color: rgba(0, 0, 0, 0.45);
   }
-  .context-div{
+  .context-div {
     margin-top: 15px;
   }
   .portrait {
@@ -19,9 +19,66 @@
     float: left;
   }
 }
+.portrait-small {
+  height: 42px;
+  width: 42px;
+  margin-right: 20px;
+  float: left;
+}
 .chatbox-div {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   height: 100%;
+  .say-title {
+    font-size: 15px;
+  }
+  .say-info {
+    margin-top: 5px;
+    font-size: 12px;
+    float: left;
+  }
+  .context {
+    overflow-y: auto;
+    height: 100%;
+    a {
+      color: black;
+    }
+    a:hover {
+      color: #1890ff;
+    }
+  }
 }
 .chatbox-updating {
   height: 100%;
+}
+.right-badge {
+  float: right;
+}
+.chatbox-main-title {
+  font-size: 24px;
+}
+.chatbox-main-lv2-title {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.45);
+}
+.chatbox-main-text {
+  min-height: 42vh;
+}
+.chatbox-say {
+  margin-top: 15px;
+  .time {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.45);
+  }
+}
+.chatbox-button {
+  margin-top: 5px;
+  float: right;
+}
+.edidor {
+  background: #ffffff;
+  border: #cccccc solid 1px;
+  margin-top: 10px;
 }

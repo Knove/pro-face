@@ -4,7 +4,7 @@ import { Card, Row, Col } from "antd";
 import router from "umi/router";
 import moment from "moment";
 import QueueAnim from "rc-queue-anim";
-import { ChatBox, Updating } from "./components";
+import { ChatBox, Updating, FuncAction } from "./components";
 
 class Chatbox extends React.Component {
   render() {
@@ -24,7 +24,7 @@ class Chatbox extends React.Component {
             : "晚上好";
     return (
       <div style={{ minHeight: h }} className="main-div">
-        <Card className="chatBox-title">
+        <Card className="chatBox-title" style={{ marginBottom: 15 }}>
           <QueueAnim>
             <img
               className="portrait"
@@ -48,11 +48,16 @@ class Chatbox extends React.Component {
             />
           </Col>
           <Col span={8}>
-            <Updating
+            <FuncAction
               data={data}
               action={this.props}
               loading={this.props.loading}
             />
+            {/* <Updating
+              data={data}
+              action={this.props}
+              loading={this.props.loading}
+            /> */}
           </Col>
         </Row>
       </div>
