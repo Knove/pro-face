@@ -46,7 +46,7 @@ class Create extends React.Component {
       return null;
     }
     this.props.dispatch({
-      type: "cb/update",
+      type: "discuss/update",
       payload: {}
     });
   };
@@ -55,7 +55,7 @@ class Create extends React.Component {
       (window.innerHeight ||
         document.documentElement.clientHeight ||
         document.body.clientHeight) - 66;
-    
+
     const data = this.props.discuss;
     const editorProps = {
       height: h - 320,
@@ -137,7 +137,7 @@ class Create extends React.Component {
 // mapStateToProps内的参数需与model里的namespace一致
 function mapStateToProps(state) {
   console.log(state);
-  
+
   const discuss = state.discuss;
   return { discuss, loading: state.loading.models.discuss };
 }
