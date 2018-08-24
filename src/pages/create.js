@@ -61,7 +61,7 @@ class Create extends React.Component {
       height: h - 320,
       contentFormat: "html",
       initialContent: "<p></p>",
-      onChange: () => this.handleChange,
+      onChange: (html) => this.handleChange(html),
       media: {
         allowPasteImage: false, // 是否允许直接粘贴剪贴板图片（例如QQ截图等）到编辑器
         image: false, // 开启图片插入功能
@@ -136,8 +136,6 @@ class Create extends React.Component {
 }
 // mapStateToProps内的参数需与model里的namespace一致
 function mapStateToProps(state) {
-  console.log(state);
-
   const discuss = state.discuss;
   return { discuss, loading: state.loading.models.discuss };
 }

@@ -7,6 +7,7 @@ import {
   getDiscussChatBoxByDiscussId,
   discussClickAdd
 } from "../pages/index/service";
+import router from "umi/router";
 
 export default {
   namespace: "discuss",
@@ -34,20 +35,21 @@ export default {
     },
     // 增加帖子
     *update({ payload }, { call, put, select }) {
-      const { htmlData, newTitle, newType } = yield select(store => store.cb);
+      const { htmlData, newTitle, newType } = yield select(store => store.discuss);
       payload.htmlData = htmlData;
       payload.newTitle = newTitle;
       payload.newType = newType;
       const backData = yield call(addDiscuss, payload);
       if (backData.data && backData.data.status === "200") {
         message.success("发布成功！");
+        router.push("/");
       } else {
         message.warning("发生错误，错误信息：" + backData.data.msg);
       }
     },
     // 留言
     *apply({ payload }, { call, put, select }) {
-      const { duscussInfo, chatBoxText } = yield select(store => store.cb);
+      const { duscussInfo, chatBoxText } = yield select(store => store.discuss);
       payload.discussId = duscussInfo._id;
       payload.text = chatBoxText;
       const backData = yield call(addDiscussChatBox, payload);
