@@ -46,7 +46,7 @@ class Create extends React.Component {
       return null;
     }
     this.props.dispatch({
-      type: "cb/update",
+      type: "discuss/update",
       payload: {}
     });
   };
