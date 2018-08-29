@@ -21,7 +21,7 @@ class Ctrl extends React.Component {
       upload: "ctrl/common/upload", // 上传原型 页面
       pro: "ctrl/pro", // 系统管理页
       _prod: "prod", // 原型页
-      _login: "login", // 跳转登录页
+      // _login: "login", // 跳转登录页
       _conf: "conf", // 跳转会议室页
       404: "404" // 404页
     };
