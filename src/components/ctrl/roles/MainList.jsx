@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Popover, Divider, Button, Icon, Popconfirm } from "antd";
+import { Table, Popover, Divider, Button, Icon, Popconfirm, Tag } from "antd";
 import router from "umi/router";
 
 class MainList extends React.Component {
@@ -49,6 +49,12 @@ class MainList extends React.Component {
     }
   };
   render() {
+    const rules = [
+      "", "产品经理", "程序", "HR"
+    ]
+    const colorRules = [
+      "", "geekblue", "purple", "volcano"
+    ]
     const columns = [
       {
         title: "角色名",
@@ -65,8 +71,9 @@ class MainList extends React.Component {
             <Popover
               content={
                 <div>
-                  角色类型1权限较高，拥有进入产品管理并操作的权限。<br />
-                  角色类型2权限较低，只拥有查看权限。
+                  产品经理权限较高，拥有进入产品管理并操作的权限。<br />
+                  程序包含前后端、测试，只拥有查看权限。<br />
+                  HR权限，在程序权限的基础上可以增加用户。
                 </div>
               }
               title="提示"
@@ -80,7 +87,7 @@ class MainList extends React.Component {
         ),
         dataIndex: "role_type",
         key: "role_type",
-        render: text => <span>模式 {text}</span>
+        render: text => <span><Tag color={colorRules[text]}>{rules[text]}</Tag></span>
       },
       {
         title: "操作",

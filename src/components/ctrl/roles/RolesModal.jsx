@@ -71,12 +71,13 @@ class RolesModal extends React.Component {
                 rules: [{ required: true, message: "请选择角色类型！" }]
               })(
                 <RadioGroup>
-                  <Radio value="1">模式 1</Radio>
-                  <Radio value="2">模式 2</Radio>
+                  <Radio value="1">产品经理</Radio>
+                  <Radio value="2">程序</Radio>
+                  <Radio value="3">HR</Radio>
                 </RadioGroup>
               )}
               <Popover
-                content={<div>角色类型1权限较高，拥有进入产品管理并操作的权限。<br />角色类型2权限较低，只拥有查看权限。</div>}
+                content={<div>产品经理权限较高，拥有进入产品管理并操作的权限。<br />程序包含前后端、测试，只拥有查看权限。<br />HR权限，在程序权限的基础上可以增加用户。</div>}
                 title="提示"
                 trigger="click"
                 visible={this.state.visible}

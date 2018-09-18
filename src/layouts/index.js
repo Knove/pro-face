@@ -64,6 +64,7 @@ class Layouts extends React.Component {
         document.documentElement.clientHeight ||
         document.body.clientHeight) - 215;
         console.log(layout);
+    const power = this.props.index.sessionUserInfo.power;
     return (
       <div>
         {layout !== "login" && (
@@ -77,19 +78,19 @@ class Layouts extends React.Component {
                     <Button onClick={() => this.routerGo("afterVersion")}>
                       往期版本
                     </Button>
-                    {this.props.index.sessionUserInfo.power !== "view" && (
+                    {power !== "view" && (
                       <>
                         <Button onClick={() => this.routerGo("upload")}>
                           上传原型
                         </Button>
                         <Button onClick={() => this.routerGo("uploadFile")}>
-                          上传文档
+                          关联文档
                         </Button>
                         <Button
                           type="primary"
                           onClick={() => this.routerGo("ctrl")}
                         >
-                          产品管理
+                          后台管理
                         </Button>
                       </>
                     )}
@@ -159,9 +160,10 @@ class Layouts extends React.Component {
                 >
                   <Menu.Item key="/ctrl/pro/add">增加原型种类</Menu.Item>
                   <Menu.Item key="/ctrl/pro/add-type-file">
-                    上传原型文档
+                    关联原型文档
                   </Menu.Item>
                 </SubMenu>
+                {(power === "admin" || power === "hr") && (
                 <SubMenu
                   key="角色管理"
                   title={
@@ -172,7 +174,8 @@ class Layouts extends React.Component {
                 >
                   <Menu.Item key="/ctrl/pro/roles">角色基础设置</Menu.Item>
                 </SubMenu>
-                {this.props.index.sessionUserInfo.power === "admin" && (
+                )}
+                {(power === "admin" || power === "hr") && (
                   <SubMenu
                     key="用户管理"
                     title={
