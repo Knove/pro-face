@@ -163,7 +163,7 @@ class Layouts extends React.Component {
                     关联原型文档
                   </Menu.Item>
                 </SubMenu>
-                {(power === "admin" || power === "hr") && (
+                {(power === "admin" || power === "ctrl") && (
                 <SubMenu
                   key="角色管理"
                   title={

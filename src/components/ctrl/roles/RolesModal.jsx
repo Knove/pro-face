@@ -73,7 +73,6 @@ class RolesModal extends React.Component {
                 <RadioGroup>
                   <Radio value="1">产品经理</Radio>
                   <Radio value="2">程序</Radio>
-                  <Radio value="3">HR</Radio>
                 </RadioGroup>
               )}
               <Popover
