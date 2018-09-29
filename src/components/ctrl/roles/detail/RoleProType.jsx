@@ -81,13 +81,13 @@ class RoleProType extends React.Component {
         }
         return null;
       });
-      console.log(roleProTypeList, record);
+      // console.log(roleProTypeList, record);
       return flag;
     }
     // rowSelection object indicates the need for row selection
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(
+        // console.log(
           `selectedRowKeys: ${selectedRowKeys}`,
           "selectedRows: ",
           selectedRows

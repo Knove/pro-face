@@ -17,7 +17,7 @@ class AddTypeFile extends React.Component {
   handleUpload = () => {
     if (this.props.upload.uploadType && this.props.upload.fileText) {
       const { fileList } = this.props.upload;
-      console.log(fileList);
+      // console.log(fileList);
       const formData = new FormData();
       formData.append("fileUpload", fileList[0]);
       formData.append("fileType", this.props.upload.uploadType);
@@ -79,7 +79,7 @@ class AddTypeFile extends React.Component {
     const props = {
       action: "",
       onRemove: file => {
-        console.log(file);
+        // console.log(file);
         this.props.dispatch({
           type: "upload/save",
           payload: {
@@ -88,7 +88,7 @@ class AddTypeFile extends React.Component {
         });
       },
       beforeUpload: file => {
-        console.log(file);
+        // console.log(file);
         this.props.dispatch({
           type: "upload/save",
           payload: {

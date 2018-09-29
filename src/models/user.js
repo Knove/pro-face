@@ -21,7 +21,7 @@ export default {
     // 增加一位用户
     *addUser({ payload }, { call, put, select }) {
       const backData = yield call(addUser, payload);
-      // console.log(backData);
+      // // console.log(backData);
       if (backData.data && backData.data.status === "200") {
         message.success("添加成功！");
       } else {

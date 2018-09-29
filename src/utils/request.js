@@ -34,7 +34,7 @@ export function request(url, options) {
     .catch(err => ({ err }));
 }
 export function requestFile(url, options) {
-  console.log(options);
+  // console.log(options);
   // 跨域传session :
   options.credentials = "include";
   return fetch(url, options)

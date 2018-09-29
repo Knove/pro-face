@@ -312,9 +312,13 @@ class Index extends React.Component {
             return {
               children: (
                 <Popover
-                  content=<span>
-                    {value.user}（{value.num}人）{value.title}
-                  </span>
+                  content={
+                    <span>
+                      {value.user}（{value.num}
+                      人）
+                      {value.title}
+                    </span>
+                  }
                   trigger="hover"
                 >
                   <div
@@ -322,7 +326,9 @@ class Index extends React.Component {
                     onClick={() => this.alertViewModlue(row, value._id)}
                   >
                     <span className="td-text">
-                      {value.user}（{value.num}人）{value.title}
+                      {value.user}（{value.num}
+                      人）
+                      {value.title}
                     </span>
                   </div>
                 </Popover>
@@ -502,7 +508,7 @@ class Index extends React.Component {
               <Option value="2">画堂春（人数：15-18）</Option>
               <Option value="3">西江月（人数：6-8）</Option>
               <Option value="4">定风波（人数：30 + ）</Option>
-              <Option value="5">过龙门（人数：30 +）</Option>
+              <Option value="5">过龙门（人数：30 + ）</Option>
             </Select>
           </FormItem>
           <FormItem {...formItemLayout} label="会议类型">

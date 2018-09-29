@@ -3,7 +3,7 @@ import { Card, List, Divider, Button, Icon, Breadcrumb  } from "antd";
 import router from "umi/router";
 class FuncAction extends React.Component {
   handleClick = item => {
-    console.log(item);
+    // console.log(item);
     this.props.action.dispatch({
       type: "index/queryPrototype",
       payload: {

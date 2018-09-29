@@ -58,7 +58,7 @@ export default {
         conf: modalConf,
         text: modalText
       };
-      // 要提前二小时预定！
+      // 要提前十分钟预定！
       if (
         moment().diff(moment(modalTimeClear).add(8 + modalTime[0] / 2, "hours")) >
         -600000

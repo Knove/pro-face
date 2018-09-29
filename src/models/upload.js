@@ -27,7 +27,7 @@ export default {
     // 上传文件
     *uploadFile({ payload }, { call, put, select }) {
       const backData = yield call(uploadFile, payload);
-      console.log(backData);
+      // console.log(backData);
       message.info("上传请求发起成功！正在跳转至主页……");
       setTimeout(() => {
         window.location.href = "/prod";
@@ -36,7 +36,7 @@ export default {
     // 上传文档！
     *uploadFileToType({ payload }, { call, put, select }) {
       const backData = yield call(uploadFileToType, payload);
-      console.log(backData);
+      // console.log(backData);
       message.info("上传请求发起成功！正在跳转至主页……");
       setTimeout(() => {
         window.location.href = "/prod";

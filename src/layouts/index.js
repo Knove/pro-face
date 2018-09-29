@@ -63,7 +63,6 @@ class Layouts extends React.Component {
       (window.innerHeight ||
         document.documentElement.clientHeight ||
         document.body.clientHeight) - 215;
-        console.log(layout);
     const power = this.props.index.sessionUserInfo.power;
     return (
       <div>

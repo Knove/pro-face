@@ -59,7 +59,7 @@ class UserRole extends React.Component {
           value
         }
       });
-      console.log(value);
+      // console.log(value);
     }
   };
   handleDelete = user_role_id => {

@@ -3,7 +3,7 @@ import { Table, Menu, Divider, Button, Icon, Popconfirm } from "antd";
 import router from "umi/router";
 class MainList extends React.Component {
   handleClick = item => {
-    console.log(item);
+    // console.log(item);
     this.props.props.dispatch({
       type: "index/queryPrototype",
       payload: {
@@ -24,7 +24,7 @@ class MainList extends React.Component {
   };
   render() {
     const __ = this.props.props.index;
-    console.log(this.props.props);
+    // console.log(this.props.props);
     const h =
       (window.innerHeight ||
         document.documentElement.clientHeight ||

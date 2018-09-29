@@ -37,9 +37,9 @@ export default {
         password
       };
       const backData = yield call(checkUser, sendData);
-      console.log(backData);
+      // console.log(backData);
       if (backData.data) {
-        console.log(router.location.query.from);
+        // console.log(router.location.query.from);
         if (backData.data.status === "200" && backData.data.data) {
           message.success("登陆成功！正在跳转……");
           yield put({

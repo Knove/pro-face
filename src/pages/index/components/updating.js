@@ -3,7 +3,7 @@ import { Card, Menu, Divider, Button, Icon, Popconfirm } from "antd";
 import router from "umi/router";
 class Updating extends React.Component {
   handleClick = item => {
-    console.log(item);
+    // console.log(item);
     this.props.action.dispatch({
       type: "index/queryPrototype",
       payload: {

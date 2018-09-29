@@ -18,7 +18,7 @@ class Add extends React.Component {
     });
   };
   handleSelectChange = value => {
-    // console.log(value);
+    // // console.log(value);
   };
   inputChange = value => {
     this.props.dispatch({
