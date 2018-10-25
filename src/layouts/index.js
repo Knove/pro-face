@@ -54,7 +54,7 @@ class Layouts extends React.Component {
     const layoutsType = ["/pro", "login", "conf", "404", "chatbox", "prod"];
     let layout = "";
     layoutsType.map(item => {
-      if (router.location.pathname.indexOf(item) > 0) {
+      if (window.location.pathname.indexOf(item) > 0) {
         layout = item;
       }
       return null;

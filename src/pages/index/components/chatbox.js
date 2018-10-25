@@ -31,7 +31,7 @@ class ChatBox extends React.Component {
     const h =
       (window.innerHeight ||
         document.documentElement.clientHeight ||
-        document.body.clientHeight) - 248;
+        document.body.clientHeight) - 218;
     const typeOption = {
       1: "工作交流",
       2: "原型问题",

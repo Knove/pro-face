@@ -1,7 +1,31 @@
 export default {
-  plugins: ['umi-plugin-dva'],
+  plugins: [
+    // ref: https://umijs.org/plugin/umi-plugin-react.html
+    ['umi-plugin-react', {
+      antd: true,
+      dva: true,
+      dynamicImport: false,
+      title: '辰森OFFICE系统',
+      dll: false,
+      routes: {
+        exclude: [],
+      },
+      hardSource: false,
+    }],
+  ],
+  targets: {
+    ie: 11,
+  },
   context: {
     title: '辰森OFFICE系统',
   },
-  hd: false,
+  devServer: {
+    proxy: {
+      "/pro": {
+        target: "http://localhost:7777",
+        changeOrigin: true,
+        pathRewrite: { "^/pro": "/pro" }
+      }
+    }
+  }
 }

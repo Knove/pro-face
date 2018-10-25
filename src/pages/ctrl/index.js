@@ -14,7 +14,7 @@ class Ctrl extends React.Component {
     });
   };
   componentDidMount() {
-    const targetRouter = router.location.query.path || "404";
+    const targetRouter = window.location.search.substr(6) || "404";
     const routerRule = {
       checkLogin: "ctrl/checkLogin", // 校验 验证码页面
       alterPass: "ctrl/alterPass", // 强制更改密码页面
@@ -25,8 +25,10 @@ class Ctrl extends React.Component {
       _conf: "conf", // 跳转会议室页
       404: "404" // 404页
     };
+    console.log(targetRouter);
+    
     router.push(
-      routerRule[targetRouter] || router.location.query.path.replace(/_/g, "/")
+      routerRule[targetRouter] || window.location.search.substr(6).replace(/_/g, "/")
     );
   }
   render() {
