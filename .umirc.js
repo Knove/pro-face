@@ -4,7 +4,7 @@ export default {
     ['umi-plugin-react', {
       antd: true,
       dva: true,
-      dynamicImport: false,
+      dynamicImport: true,
       title: '辰森OFFICE系统',
       dll: false,
       routes: {
@@ -13,6 +13,8 @@ export default {
       hardSource: false,
     }],
   ],
+  publicPath: '/static/',
+  hash: true,
   targets: {
     ie: 11,
   },
@@ -27,5 +29,5 @@ export default {
         pathRewrite: { "^/pro": "/pro" }
       }
     }
-  }
+  },
 }
