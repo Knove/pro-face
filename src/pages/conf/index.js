@@ -156,6 +156,10 @@ class Index extends React.Component {
   };
   render() {
     const data = this.props.conf;
+    const h =
+    (window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight) - 140;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -439,6 +443,7 @@ class Index extends React.Component {
           dataSource={tableData}
           bordered
           pagination={false}
+          scroll={{y: h }}
         />
         <Modal
           title="预定会议室"

@@ -11,7 +11,7 @@ class Chatbox extends React.Component {
     const h =
       (window.innerHeight ||
         document.documentElement.clientHeight ||
-        document.body.clientHeight) - 66;
+        document.body.clientHeight) - 135;
     const data = this.props.chatbox;
     const now = moment().format("HH");
     const hello =
@@ -23,7 +23,7 @@ class Chatbox extends React.Component {
             ? "下午好"
             : "晚上好";
     return (
-      <div style={{ minHeight: h }} className="main-div">
+      <div style={{ minHeight: h }} className="main-div index">
         <Card className="chatBox-title" style={{ marginBottom: 15 }}>
           <QueueAnim>
             <img
