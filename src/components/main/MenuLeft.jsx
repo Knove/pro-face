@@ -39,7 +39,7 @@ class MainList extends React.Component {
         <Menu
           onClick={this.handleClick}
           className="main-list"
-          style={{ maxHeight: h }}
+          style={{ height: h }}
           mode="inline"
         >
           {menuItem}

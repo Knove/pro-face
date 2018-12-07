@@ -51,7 +51,7 @@ export default {
           });
           setTimeout(() => {
             if (window.location.search.substr(6))
-            window.location.href = window.location.search.substr(6);
+            window.location.href = decodeURIComponent(window.location.search.substr(6));
             else
             window.location.href = "/";
           }, 1000);
